@@ -1,0 +1,42 @@
+<!doctype html>
+    {% load staticfiles %}
+    <head>
+        <title>Global Investor</title>
+        <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" href="{% static 'css/customer/home.css' %}" />
+        <!-- <script src="{% static 'js/home/home.js' %}"></script> -->
+
+    </head>
+    <body>
+        <nav class="navbar navbar-fixed-top my-navbar top-nav" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#example-navbar-collapse">
+                        <span class="sr-only">首页</span>
+                        <span class="icon-bar">A股</span>
+                        <span class="icon-bar">港股</span>
+                        <span class="icon-bar">美股</span>
+                        <span class="icon-bar">美股</span>
+                    </button>
+                    <a class="navbar-brand" href="/">首页</a>
+                </div>
+                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/cn_a_stocks">A股</a></li>
+                        <li><a href="/cn_hk_stocks">港股</a></li>
+                        <li><a href="/us_stocks">美股</a></li>
+                        <li><a href="/cryptocurrency">加密货币</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br/>
+        <div class="content">
+            {% block content %}{% endblock%}
+        </div>
+    </body>
+</html>
