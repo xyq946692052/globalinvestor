@@ -1,5 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>我是A股首页</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>名称</th>
+          <th>编码</th>
+          <th>板块</th>
+        </tr>
+      </thead>
+      <tbody>
+       {% for h in sh %}
+        <tr>
+          <td>{{ h.stock_name }}</td>
+          <td>{{ h.stock_code }}</td>
+          <td>{{ h.category.category_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include "pagination.html" %}
 {% endblock %}

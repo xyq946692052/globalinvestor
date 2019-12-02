@@ -121,3 +121,5 @@ STATIC_ROOT = '/tmp/static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'themes', THEME, 'static/')
 ]
+
+PAGINATOR_NUM = 16
