@@ -1,20 +1,50 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/customer/cn_a_stocks.css' %}" />
+{% endblock %}
+
 {% block content %}
-    <table class="table table-striped">
+     <div class="search">
+        <table>
+            <tr>
+                <td>
+                    <input type="text" class="form-control" placeholder="待查股票代码" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-default" style="margin-left:3px; margin-top:-2px;"> 查询 </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr/>
+    <table class="table table-striped" style="width:60%">
       <thead>
         <tr>
-          <th>名称</th>
-          <th>编码</th>
-          <th>板块</th>
+            <th>名称</th>
+            <th>编号</th>
+            <th>板块</th>
+            <th>地域</th>
+            <th>上市时间</th>
         </tr>
       </thead>
       <tbody>
        {% for h in sh %}
         <tr>
-          <td>{{ h.stock_name }}</td>
-          <td>{{ h.stock_code }}</td>
-          <td>{{ h.category.category_name }}</td>
+            <td>
+                <div class="stock-name"><a href="#">{{ h.stock_name }}</a></div>
+                {% if h.now_price != None %}
+                    {% if h.price_change < 0 %}
+                        <span class="stock-realtime-price green-price-color">{{h.now_price}}  ({{h.price_change}}%)</span></td>
+                    {% else %}
+                        <span class="stock-realtime-price red-price-color">{{h.now_price}}  ({{h.price_change}}%)</span></td>
+                    {% endif %}
+                {% endif %}
+            <td>{{ h.stock_code }}</td>
+            <td>{{ h.category.category_name }}</td>
+            <td>{{ h.area }}</td>
+            <td>{{ h.ipodate }}</td>
         </tr>
         {% endfor %}
       </tbody>

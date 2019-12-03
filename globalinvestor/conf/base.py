@@ -123,3 +123,5 @@ STATICFILES_DIRS = [
 ]
 
 PAGINATOR_NUM = 16
+
+SINAAPI = 'http://hq.sinajs.cn/'
