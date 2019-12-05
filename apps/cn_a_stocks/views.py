@@ -1,5 +1,4 @@
 import requests
-
 from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import render,HttpResponse
@@ -9,9 +8,16 @@ from utils import pages
 
 
 def index(request):
-    context = {}
-    sh_objs = AStocksHeader.objects.filter(isdelisted=False).all()
+    name_code = request.GET.get('name_code', None)
+    if name_code:
+        if name_code.isdigit():
+            sh_objs = AStocksHeader.objects.filter(isdelisted=False, stock_code__icontains=name_code).all()
+        else:
+            sh_objs = AStocksHeader.objects.filter(isdelisted=False, stock_name__icontains=name_code).all()
+    else:
+        sh_objs = AStocksHeader.objects.filter(isdelisted=False).all()
 
+    context = {}
     context['sh'], context['page_of_obj'], context['range_page'] = \
         pages.get_page_range(request, sh_objs)
 
@@ -20,19 +26,6 @@ def index(request):
     return render(request, 'cn_a_stocks/index.html', context)
 
 
-
-def search(request):
-    res = request.GET.get('name_code', None)
-    if res.isdigit():
-        caobj = AStocksHeader.objects.filter(stock_code__icontains=res).all()
-    else:
-        caobj = AStocksHeader.objects.filter(stock_name__icontains=res).all()
-    context = {}
-    context['sh'], context['page_of_obj'], context['range_page'] = \
-        pages.get_page_range(request, caobj)
-
-    view_stock_price(context['sh'])
-    return render(request, 'cn_a_stocks/index.html', context)
 
 
 def view_stock_price(objs):
