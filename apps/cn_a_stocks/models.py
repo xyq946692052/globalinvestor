@@ -9,6 +9,9 @@ class AStocksCategory(models.Model):
     class Meta:
         db_table = 'stocks_a_category'
 
+    def __str__(self):
+        return self.category_name
+
 
 class AStocksHeader(models.Model):
     stock_name = models.CharField(max_length=20)
@@ -22,6 +25,9 @@ class AStocksHeader(models.Model):
     class Meta:
         ordering = ('stock_code', )
         db_table = 'stocks_a_header'
+
+    def __str__(self):
+        return self.stock_name
 
 
 

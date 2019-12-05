@@ -7,19 +7,21 @@
 
 {% block content %}
      <div class="search">
-        <table>
-            <tr>
-                <td>
-                    <input type="text" class="form-control" placeholder="待查股票代码" />
-                </td>
-                <td>
-                    <button type="button" class="btn btn-default" style="margin-left:3px; margin-top:-2px;"> 查询 </button>
-                </td>
-            </tr>
-        </table>
+         <form action="{% url 'search' %}" method="get">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" name="name_code" class="form-control" placeholder="待查股票代码" />
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-default" value="查询" style="margin-left:3px; margin-top:-2px;" />
+                    </td>
+                </tr>
+            </table>
+         </form>
     </div>
     <hr/>
-    <table class="table table-striped" style="width:60%">
+    <table class="table table-striped">
       <thead>
         <tr>
             <th>名称</th>
@@ -37,6 +39,8 @@
                 {% if h.now_price != None %}
                     {% if h.price_change < 0 %}
                         <span class="stock-realtime-price green-price-color">{{h.now_price}}  ({{h.price_change}}%)</span></td>
+                    {% elif h.now_price == 0 %}
+                        <span class="stock-realtime-price white-price-color">{{h.now_price}}</span></td>
                     {% else %}
                         <span class="stock-realtime-price red-price-color">{{h.now_price}}  ({{h.price_change}}%)</span></td>
                     {% endif %}

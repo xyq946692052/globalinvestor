@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'cn_a_stocks',
     'cn_hk_stocks',
     'us_stocks',
-    'cryptocurrency'
+    'cryptocurrency',
 ]
 
 MIDDLEWARE = [
