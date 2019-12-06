@@ -18,7 +18,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
+            <state relative-caret-position="168">
               <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
             </state>
           </provider>
@@ -36,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/cn_a_stocks/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="50" column="39" lean-forward="true" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
+            <state relative-caret-position="297">
+              <caret line="122" column="32" lean-forward="true" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -48,13 +48,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/templates/cn_a_stocks/detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="276">
-              <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+            <state relative-caret-position="126">
+              <caret line="6" column="33" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="37" />
               <folding>
-                <element signature="e#359#382#0" expanded="true" />
+                <element signature="e#379#402#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -63,8 +63,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/cn_a_stocks.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
+            <state relative-caret-position="398">
               <caret line="43" column="21" lean-forward="true" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/base.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="36" column="10" lean-forward="true" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -146,7 +155,6 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/apps/us_stocks/views.py" />
         <option value="$PROJECT_DIR$/db_tools/__init__.py" />
-        <option value="$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/base.css" />
         <option value="$PROJECT_DIR$/apps/cn_a_stocks/apps.py" />
         <option value="$PROJECT_DIR$/db_tools/import_cn_a_stocks_category.py" />
         <option value="$PROJECT_DIR$/db_tools/import_cn_a_header.py" />
@@ -163,15 +171,16 @@
         <option value="$PROJECT_DIR$/apps/cn_a_stocks/urls.py" />
         <option value="$PROJECT_DIR$/globalinvestor/themes/default/templates/cn_a_stocks/index.html" />
         <option value="$PROJECT_DIR$/globalinvestor/themes/default/templates/base.html" />
-        <option value="$PROJECT_DIR$/apps/cn_a_stocks/views.py" />
         <option value="$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/cn_a_stocks.css" />
         <option value="$PROJECT_DIR$/globalinvestor/themes/default/templates/cn_a_stocks/detail.html" />
+        <option value="$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/base.css" />
+        <option value="$PROJECT_DIR$/apps/cn_a_stocks/views.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="-88" />
+    <option name="y" value="37" />
     <option name="width" value="1456" />
     <option name="height" value="876" />
   </component>
@@ -538,13 +547,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/base.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/static/js/common.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
@@ -579,13 +581,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/templates/cn_a_stocks/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="63">
@@ -596,29 +591,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/cn_a_stocks/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="50" column="39" lean-forward="true" selection-start-line="50" selection-start-column="39" selection-end-line="50" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/cn_a_stocks.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
+        <state relative-caret-position="398">
           <caret line="43" column="21" lean-forward="true" selection-start-line="43" selection-start-column="21" selection-end-line="43" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/templates/cn_a_stocks/detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="276">
-          <caret line="31" column="32" lean-forward="true" selection-start-line="31" selection-start-column="32" selection-end-line="31" selection-end-column="32" />
+        <state relative-caret-position="126">
+          <caret line="6" column="33" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="37" />
           <folding>
-            <element signature="e#359#382#0" expanded="true" />
+            <element signature="e#379#402#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/globalinvestor/themes/default/static/css/customer/base.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="36" column="10" lean-forward="true" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/cn_a_stocks/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="122" column="32" lean-forward="true" selection-start-line="122" selection-start-column="32" selection-end-line="122" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>

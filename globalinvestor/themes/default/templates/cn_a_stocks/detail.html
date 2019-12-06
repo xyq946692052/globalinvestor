@@ -2,11 +2,16 @@
 {% load static %}
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/customer/cn_a_stocks.css' %}" />
+    <style>
+        .active{
+            background-color: #00343F;
+        }
+    </style>
 {% endblock %}
 {% block script %}
     <script>
         function getkline(img_link){
-            document.getElementById('kline-img').src=img_link;
+            $("#kline-img").attr("src",img_link);
         }
     </script>
 {% endblock %}
