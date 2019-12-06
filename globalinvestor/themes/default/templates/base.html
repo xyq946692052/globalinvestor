@@ -5,6 +5,7 @@
         <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="{% static 'js/common.js' %}"></script>
 
         <link rel="stylesheet" href="{% static 'css/customer/base.css' %}" />
         {% block style %}{% endblock %}
@@ -30,6 +31,10 @@
                         <li><a href="/cn_hk_stocks">港股</a></li>
                         <li><a href="/us_stocks">美股</a></li>
                         <li><a href="/cryptocurrency">加密货币</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
                     </ul>
                 </div>
             </div>
