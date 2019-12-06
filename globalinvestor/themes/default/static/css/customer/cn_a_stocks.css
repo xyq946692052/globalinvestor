@@ -25,11 +25,11 @@
 }
 .stock-base-info{
     margin-top:2%;
-    height: 100px;
-    border:dotted 1px #ccc;
+    font-size: 1em;
 }
 
 .kline-div{
+    margin-top: 2%;
     width:40%;
     height: 350px;
 }
@@ -46,5 +46,5 @@
     border:solid 1px #ccc;
 }
 .kline-img{
-    margin-top:5%;
+    margin-top:2%;
 }

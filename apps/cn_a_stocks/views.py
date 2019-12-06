@@ -57,15 +57,16 @@ def detail(request):
         daily_price_url = 'http://image.sinajs.cn/newchart/daily/n/sh{}.gif'.format(sobj.stock_code)
         week_price_url = 'http://image.sinajs.cn/newchart/weekly/n/sh{}.gif'.format(sobj.stock_code)
         month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sh{}.gif'.format(sobj.stock_code)
-        result = get_stock_detail_info('sh', sobj.stock_code)
+        stockinfo = get_stock_detail_info('sh', sobj.stock_code)
     else:
         hour_price_url = 'http://image.sinajs.cn/newchart/min/n/sz{}.gif'.format(sobj.stock_code)
         daily_price_url = 'http://image.sinajs.cn/newchart/daily/n/sz{}.gif'.format(sobj.stock_code)
         week_price_url = 'http://image.sinajs.cn/newchart/weekly/n/sz{}.gif'.format(sobj.stock_code)
         month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sz{}.gif'.format(sobj.stock_code)
-        result = get_stock_detail_info('sz', sobj.stock_code)
+        stockinfo = get_stock_detail_info('sz', sobj.stock_code)
     view_stock_price(sobj)
     content = dict()
+    content['stockinfo'] = stockinfo
     content['sobj'] = sobj
     content['hour_price_url'] = hour_price_url
     content['daily_price_url'] = daily_price_url
@@ -77,10 +78,7 @@ def detail(request):
 
 def get_stock_detail_info(area, stock_code):
     result = requests.get('http://sqt.gtimg.cn/q={}{}'.format(area, stock_code)).text.split('~')
-    for index, k in enumerate(result):
-        print(index+1,k)
-
-    StockInfo = namedtuple('StockInfo',[
+    StockInfo = namedtuple('StockInfo', [
         'inx',
         'stock_name',
         'stock_code',
@@ -100,7 +98,6 @@ def get_stock_detail_info(area, stock_code):
         'sell_3_price', 'sell_3_num',
         'sell_4_price', 'sell_4_num',
         'sell_5_price', 'sell_5_num',
-
         'mingxi',   # 明细  30
         'nowtime',   # 当前时间
         'change_amount',  # 涨跌额(元)
@@ -125,7 +122,7 @@ def get_stock_detail_info(area, stock_code):
         'unknow51', # 51
         'average_price',  # 均价 52
         'pe_dynamic',  # 动态市盈率 53
-        'pe_static_',  # 静态市盈率 54
+        'pe_static',  # 静态市盈率 54
         'unknow55',  # 55
         'unknow56',  # 56
         'unknow57',   # 57
@@ -134,11 +131,14 @@ def get_stock_detail_info(area, stock_code):
         'unknow60',  # 60
         'unknow61',  # 61
         'unknow62',  # 62
-
-
+        'unknow63',  # 63
+        'unknow64',  # 64
+        'unknow65',  # 65
+        'unknow66',  # 66
+        'unknow67',  # 67
 
     ])
-    # si = StockInfo(result)
-    # print('==========',si.stock_name)
-    return result
+    si = StockInfo(*result)
+
+    return si
 
