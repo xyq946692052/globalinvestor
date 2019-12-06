@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/customer/cn_a_stocks.css' %}" />
+{% endblock %}
+{% block script %}
+    <script>
+        function getkline(img_link){
+            document.getElementById('kline-img').src=img_link;
+        }
+    </script>
+{% endblock %}
+
+
+{% block content %}
+    <h2 style="display:inline;">{{ sobj.stock_name }}</h2> <span class="detail-stock_code">({{ sobj.stock_code }})</span>
+    {% if sobj.now_price != None %}
+        {% if sobj.price_change < 0 %}
+            <span class="stock-realtime-price green-price-color">{{sobj.now_price}}  ({{sobj.price_change}}%)</span></td>
+        {% elif sobj.now_price == 0 %}
+            <span class="stock-realtime-price white-price-color">{{sobj.now_price}}</span></td>
+        {% else %}
+            <span class="stock-realtime-price red-price-color">{{sobj.now_price}}  ({{sobj.price_change}}%)</span></td>
+        {% endif %}
+    {% endif %}
+
+
+    <div class="stock-base-info">
+
+    </div>
+    <div class="kline-div">
+        <div class="kline-date">
+            <ul class="kline-date-ul">
+                <a href="javascript:void(0)" onclick="getkline('{{hour_price_url}}')"><li>时</li></a>
+                <a href="javascript:void(0)" onclick="getkline('{{daily_price_url}}')"><li>日</li></a>
+                <a href="javascript:void(0)" onclick="getkline('{{week_price_url}}')"><li>周</li></a>
+                <a href="javascript:void(0)" onclick="getkline('{{month_price_url}}')"><li>月</li></a>
+            </ul>
+        </div><br/>
+        <div class="kline-img">
+            <img id="kline-img" src="{{hour_price_url}}" />
+        </div>
+    </div>
+{% endblock %}

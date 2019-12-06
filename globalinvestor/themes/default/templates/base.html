@@ -9,6 +9,7 @@
 
         <link rel="stylesheet" href="{% static 'css/customer/base.css' %}" />
         {% block style %}{% endblock %}
+        {% block script %}{% endblock %}
 
     </head>
     <body>
@@ -41,7 +42,6 @@
         </nav>
 
         <div class="content">
-
             {% block content %}{% endblock%}
         </div>
     </body>

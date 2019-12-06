@@ -35,7 +35,7 @@
        {% for h in sh %}
         <tr>
             <td>
-                <div class="stock-name"><a href="#">{{ h.stock_name }}</a></div>
+                <div class="stock-name"><a href="detail?sid={{h.id}}">{{ h.stock_name }}</a></div>
                 {% if h.now_price != None %}
                     {% if h.price_change < 0 %}
                         <span class="stock-realtime-price green-price-color">{{h.now_price}}  ({{h.price_change}}%)</span></td>
