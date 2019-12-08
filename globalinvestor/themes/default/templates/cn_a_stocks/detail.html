@@ -29,28 +29,39 @@
         {% endif %}
     {% endif %}
 
+    {% if sobj.website %}
+        <br/><br/>
+        公司主页&nbsp; <a href="{{ sobj.website }}" target="_blank">{{sobj.website |safe }}</a><br/>
+    {% endif %}
+    {% if sobj.main_business %}
+        {{ sobj.main_business}} <br/>
+    {% endif %}
+    {% if sobj.business_scope %}
+        <div style="width:50%">
+            经营范围: {{ sobj.business_scope}} <br/>
+        </div>
+    {% endif %}
 
-    <div class="stock-base-info">
-        <table class="table table-bordered" style="width:40%">
-            <tr>
-                <td>开盘</td><td>{{ stockinfo.opening_price}}</td><td>最高</td><td>{{ stockinfo.today_highest}}</td>
-                <td>均价</td><td>{{ stockinfo.average_price}}</td><td>最低</td><td>{{ stockinfo.today_lowest}}</td>
-            </tr>
-            <tr>
-                <td>涨停</td><td>{{ stockinfo.harden_price}}</td><td>振幅</td><td>{{ stockinfo.amplitude}}</td>
-                <td>跌停</td><td>{{ stockinfo.drop_stop_price}}</td><td>总手</td><td>{{ stockinfo.tradenum}}</td>
-            </tr>
-            <tr>
-                <td>市盈率(动)</td><td>{{ stockinfo.pe_dynamic}}</td><td>市盈率(静)</td><td>{{ stockinfo.pe_static}}</td>
-                <td>市净率</td><td>{{ stockinfo.pb_ratio}}</td><td>总市值</td><td>{{ stockinfo.aggregate_market_value}}</td>
-            </tr>
-            <tr>
-
-            </tr>
-        </table>
+    {% if sobj.introduction %}
+    <div class="accordion-group" style="width:50%">
+        <div class="accordion-heading">
+            公司介绍:
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+            {{ company_info}}... >>点击了解更多
+            </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
+            <div class="accordion-inner">
+               {{ sobj.introduction}}
+            </div>
+        </div>
     </div>
+    {% endif %}
 
     <div class="kline-div">
+        <div class="kline-img">
+            <img id="kline-img" src="{{hour_price_url}}" />
+        </div>
         <div class="kline-date">
             <ul class="kline-date-ul">
                 <a href="javascript:void(0)" onclick="getkline('{{hour_price_url}}')"><li>时</li></a>
@@ -58,9 +69,27 @@
                 <a href="javascript:void(0)" onclick="getkline('{{week_price_url}}')"><li>周</li></a>
                 <a href="javascript:void(0)" onclick="getkline('{{month_price_url}}')"><li>月</li></a>
             </ul>
-        </div><br/>
-        <div class="kline-img">
-            <img id="kline-img" src="{{hour_price_url}}" />
         </div>
+    </div>
+
+   <div class="stock-base-info">
+        <table class="table table-bordered" style="width:40%">
+            <tr>
+                <td>开盘</td><td>{{ stockinfo.opening_price}}</td><td>最高</td><td>{{ stockinfo.today_highest}}</td>
+                <td>均价</td><td>{{ stockinfo.average_price}}</td><td>最低</td><td>{{ stockinfo.today_lowest}}</td>
+            </tr>
+            <tr>
+                <td>涨停</td><td>{{ stockinfo.harden_price}}</td><td>振幅</td><td>{{ stockinfo.amplitude}}%</td>
+                <td>跌停</td><td>{{ stockinfo.drop_stop_price}}</td><td>总手</td><td>{{ stockinfo.tradenum}}</td>
+            </tr>
+            <tr>
+                <td>内盘</td><td>{{ stockinfo.the_inner}}万</td><td>外盘</td><td>{{ stockinfo.the_outer}}万</td>
+                <td>换手率</td><td>{{ stockinfo.turnover_rate}}%</td><td>市净率</td><td>{{ stockinfo.pb_ratio}}</td>
+            </tr>
+            <tr>
+                <td>市盈率(动)</td><td>{{ stockinfo.pe_dynamic}}</td><td>市盈率(静)</td><td>{{ stockinfo.pe_static}}</td>
+                <td>流通市值</td><td>{{ stockinfo.traded_market_value}}亿</td><td>总市值</td><td>{{ stockinfo.aggregate_market_value}}亿</td>
+            </tr>
+        </table>
     </div>
 {% endblock %}

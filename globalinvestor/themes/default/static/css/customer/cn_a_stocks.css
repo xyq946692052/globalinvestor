@@ -27,24 +27,31 @@
     margin-top:2%;
     font-size: 1em;
 }
-
 .kline-div{
+    margin-left: -1%;
     margin-top: 2%;
     width:40%;
     height: 350px;
 }
 .kline-date-ul{
     list-style:none;
+     margin-left: 7%;
 }
 .kline-date-ul li{
     font-weight: bold;
-    float:left;
-    width:60px;
-    height:30px;
+    float: left;
+    width: 100px;
+    height: 30px;
     line-height:30px;
     text-align: center;
     border:solid 1px #ccc;
+
 }
 .kline-img{
     margin-top:2%;
+}
+.stock-company-info{
+    width: 60%;
+    margin-top:2%;
+    font-size: 1em;
 }

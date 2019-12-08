@@ -75,7 +75,33 @@ def update_header_with_csvfile(filename):
     print('inport finished...')
 
 
+def getStockBaseInfo():
+    pro = ts.pro_api('15ff201419345eabb82bb14409b7b0cb8f9eee89744fabd37119d015')
+    df = pro.stock_company(exchange='SZSE', fields='ts_code,reg_capital,website,business_scope,main_business,introduction').values
+    res = []
+    count = 0
+    for code, reg_capital,introduction,website,business_scope,main_business in df:
+        #print('------', code,'===', reg_capital,'===', introduction,'===',website,'===',business_scope, '===',main_business)
+        print(count)
+        ah = AStocksHeader.objects.filter(stock_code=code.split('.')[0]).first()
+        if ah:
+            ah.reg_capital = reg_capital
+            ah.website = website
+            ah.main_business = main_business
+            ah.business_scope = business_scope
+            ah.introduction = introduction
+            #ah.save()
+        else:
+            res.append(code.split('.')[0])
+        count += 1
+    with open('res.txt', 'w') as f:
+        res = ','.join(res)
+        f.writelines(res)
+    print('==========finished!')
+
+
 
 if __name__ == '__main__':
     #update_ipodate()
-    update_category_with_csvfile('stocks_a_category.csv')
+    #update_category_with_csvfile('stocks_a_category.csv')
+    getStockBaseInfo()

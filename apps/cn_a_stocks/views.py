@@ -72,12 +72,16 @@ def detail(request):
     content['daily_price_url'] = daily_price_url
     content['week_price_url'] = week_price_url
     content['month_price_url'] = month_price_url
+    if sobj.introduction:
+        content['company_info'] = sobj.introduction[:20]
     return render(request, 'cn_a_stocks/detail.html', content)
 
 
 
 def get_stock_detail_info(area, stock_code):
     result = requests.get('http://sqt.gtimg.cn/q={}{}'.format(area, stock_code)).text.split('~')
+    for index, k in enumerate(result):
+        print(index, k)
     StockInfo = namedtuple('StockInfo', [
         'inx',
         'stock_name',

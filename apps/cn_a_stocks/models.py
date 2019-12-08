@@ -14,13 +14,19 @@ class AStocksCategory(models.Model):
 
 
 class AStocksHeader(models.Model):
-    stock_name = models.CharField(max_length=20)
-    category = models.ForeignKey(AStocksCategory, models.CASCADE)
-    stock_code = models.CharField(max_length=10)
-    area = models.CharField(max_length=10)
-    ipodate = models.DateField(default=dt.now())
-    outdate = models.DateField(default=dt.now())
-    isdelisted = models.BooleanField(default=False)
+    stock_name = models.CharField(max_length=20)  # 股票名
+    category = models.ForeignKey(AStocksCategory, models.CASCADE)  # 所属板块
+    stock_code = models.CharField(max_length=10) # 股票代码
+    area = models.CharField(max_length=10)  # 公司所在地
+    ipodate = models.DateField(default=dt.now(), null=True, blank=True) #上市时间
+    outdate = models.DateField(default=dt.now(), null=True, blank=True) # 退市时间
+    isdelisted = models.BooleanField(default=False)  #是否退市
+    reg_capital = models.FloatField(default=0.0)  # 注册资本
+    introduction = models.TextField(null=True)  # 公司介绍
+    website = models.URLField(null=True, max_length=500) #公司主页
+    main_business = models.TextField(null=True)  #主营业务
+    business_scope = models.TextField(null=True)  #经营范围
+
 
     class Meta:
         ordering = ('stock_code', )
