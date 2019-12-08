@@ -39,8 +39,7 @@ class AStocksHeader(models.Model):
 
 class AStocksDetail(models.Model):
     stock_name = models.ForeignKey(AStocksHeader, models.CASCADE)
-    exchange_date = models.DateField()
-    close_price = models.FloatField()
+
 
     class Meta:
         db_table = 'stocks_a_detail'
