@@ -40,6 +40,14 @@ class AStocksHeader(models.Model):
 class AStocksDetail(models.Model):
     stock_name = models.ForeignKey(AStocksHeader, models.CASCADE)
 
-
     class Meta:
         db_table = 'stocks_a_detail'
+
+
+class AStocksDailyClsePrice(models.Model):
+    stock = models.ForeignKey(AStocksHeader, models.CASCADE)
+    exchange_date = models.DateField(null=True)
+    closing_price = models.FloatField(default=0.00)
+
+    class Meta:
+        db_table = 'stocks_a_closing_price'

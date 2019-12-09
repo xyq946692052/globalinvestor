@@ -11,34 +11,43 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "globalinvestor.conf.test")
 import django
 django.setup()
 
-from cn_a_stocks.models import AStocksHeader, AStocksCategory, AStocksDetail
+from cn_a_stocks.models import AStocksHeader, AStocksCategory, AStocksDailyClsePrice
 
 import baostock as bs
-import pandas as pd
 
 lg = bs.login()
 
-#### 获取沪深A股估值指标(日频)数据 ####
-# peTTM    滚动市盈率
-# psTTM    滚动市销率
-# pcfNcfTTM    滚动市现率
-# pbMRQ    市净率
-rs = bs.query_history_k_data_plus("sz.000005",
-    "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
-    start_date='1990-12-01', end_date='2019-12-31',
-    frequency="d", adjustflag="3")
+shobjs = AStocksHeader.objects.all()
+
+count = 0
+for obj in shobjs:
+    if obj.stock_code.startswith("6"):
+        rs = bs.query_history_k_data_plus("sh.{}".format(obj.stock_code),
+            "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
+            start_date='2006-01-01', end_date='2019-12-31',
+            frequency="d", adjustflag="3")
+    else:
+        rs = bs.query_history_k_data_plus("sz.{}".format(obj.stock_code),
+           "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
+           start_date='2006-01-01', end_date='2019-12-31',
+           frequency="d", adjustflag="3")
 
 
-#### 打印结果集 ####
-result_list = []
-while (rs.error_code == '0') & rs.next():
-    # 获取一条记录，将记录合并在一起
-    result_list.append(rs.get_row_data())
+    result_list = []
+    while (rs.error_code == '0') & rs.next():
+        result_list.append(rs.get_row_data())
 
-for changedate, code, closeprice, _,_,_ in result_list:
-    ad = AStocksDetail()
 
-    print(changedate, code, closeprice)
+    for changedate, code, closeprice, _,_,_,_ in result_list:
+        stock_code = code.split(".")[1]
+        sh = AStocksHeader.objects.filter(stock_code=stock_code).first()
+        dp = AStocksDailyClsePrice()
+        dp.stock = sh
+        dp.exchange_date = changedate
+        dp.closing_price = round(float(closeprice),2)
+        dp.save()
+    count += 1
+    print('----------',count)
 
 #### 登出系统 ####
 bs.logout()
