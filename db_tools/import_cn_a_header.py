@@ -56,6 +56,7 @@ def update_category_with_csvfile(filename):
             sc = AStocksCategory()
             sc.id = k[0]
             sc.category_name = k[1]
+            sc.save()
     print('inport finished...')
 
 
@@ -63,15 +64,20 @@ def update_header_with_csvfile(filename):
     with open(filename, 'r', encoding='utf-8') as f:
         res = csv.reader(f)
         for k in res:
+            ct = AStocksCategory.objects.get(pk=k[3])
             sh = AStocksHeader()
+            ipodate = "-".join([k[5].split('/')[2],k[5].split('/')[1],k[5].split('/')[0]])
+            outdate = "-".join([k[6].split('/')[2],k[6].split('/')[1],k[5].split('/')[0]])
             sh.id = k[0]
             sh.stock_name = k[1]
             sh.stock_code=k[2]
-            sh.category = k[3]
+            sh.category = ct
             sh.area = k[4]
-            sh.ipodate=k[5]
-            sh.outdate=k[6]
+            sh.ipodate=ipodate
+            sh.outdate=outdate
             sh.isdelisted=k[7]
+            sh.save()
+
     print('inport finished...')
 
 
@@ -94,9 +100,6 @@ def getStockBaseInfo():
         else:
             res.append(code.split('.')[0])
         count += 1
-    with open('res.txt', 'w') as f:
-        res = ','.join(res)
-        f.writelines(res)
     print('==========finished!')
 
 
@@ -104,4 +107,5 @@ def getStockBaseInfo():
 if __name__ == '__main__':
     #update_ipodate()
     #update_category_with_csvfile('stocks_a_category.csv')
-    getStockBaseInfo()
+    #getStockBaseInfo()
+    #update_header_with_csvfile('stocks_a_header.csv')

@@ -27,7 +27,6 @@ class AStocksHeader(models.Model):
     main_business = models.TextField(null=True)  #主营业务
     business_scope = models.TextField(null=True)  #经营范围
 
-
     class Meta:
         ordering = ('stock_code', )
         db_table = 'stocks_a_header'
@@ -36,18 +35,10 @@ class AStocksHeader(models.Model):
         return self.stock_name
 
 
-
-class AStocksDetail(models.Model):
-    stock_name = models.ForeignKey(AStocksHeader, models.CASCADE)
-
-    class Meta:
-        db_table = 'stocks_a_detail'
-
-
-class AStocksDailyClsePrice(models.Model):
+class AStocksClsePrice(models.Model):
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
     exchange_date = models.DateField(null=True)
-    closing_price = models.FloatField(default=0.00)
+    closing_price = models.FloatField(default=0.0)
 
     class Meta:
         db_table = 'stocks_a_closing_price'

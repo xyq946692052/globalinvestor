@@ -11,43 +11,45 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "globalinvestor.conf.test")
 import django
 django.setup()
 
-from cn_a_stocks.models import AStocksHeader, AStocksCategory, AStocksDailyClsePrice
+from cn_a_stocks.models import AStocksHeader, AStocksCategory,AStocksClsePrice
 
 import baostock as bs
 
-lg = bs.login()
+def import_closing_price():
+    lg = bs.login()
+    shobjs = AStocksHeader.objects.all()
+    count = 0
+    for obj in shobjs:
+        if obj.stock_code.startswith("6"):
+            rs = bs.query_history_k_data_plus("sh.{}".format(obj.stock_code),
+                "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
+                start_date='2006-01-01', end_date='2019-12-31',
+                frequency="d", adjustflag="3")
+        else:
+            rs = bs.query_history_k_data_plus("sz.{}".format(obj.stock_code),
+               "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
+               start_date='2006-01-01', end_date='2019-12-31',
+               frequency="d", adjustflag="3")
 
-shobjs = AStocksHeader.objects.all()
+        result_list = []
+        while (rs.error_code == '0') & rs.next():
+            result_list.append(rs.get_row_data())
 
-count = 0
-for obj in shobjs:
-    if obj.stock_code.startswith("6"):
-        rs = bs.query_history_k_data_plus("sh.{}".format(obj.stock_code),
-            "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
-            start_date='2006-01-01', end_date='2019-12-31',
-            frequency="d", adjustflag="3")
-    else:
-        rs = bs.query_history_k_data_plus("sz.{}".format(obj.stock_code),
-           "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
-           start_date='2006-01-01', end_date='2019-12-31',
-           frequency="d", adjustflag="3")
+        sh_lst = AStocksHeader.objects.all()
+        sh_dic, data = {}, {}
+        for sh in sh_lst:
+            sh_dic[sh.stock_code] = sh.id
+
+        for changedate, code, closeprice, _, _, _ ,_ in result_list:
+            stock_code = code.split(".")[1]
+            data['stock_id'] = sh_dic.get(stock_code)
+            data['exchange_date'] = changedate
+            data['closing_price'] = closeprice
+            AStocksClsePrice.objects.create(**data)
+        count += 1
+        print('----------', count)
+    bs.logout()
 
 
-    result_list = []
-    while (rs.error_code == '0') & rs.next():
-        result_list.append(rs.get_row_data())
-
-
-    for changedate, code, closeprice, _,_,_,_ in result_list:
-        stock_code = code.split(".")[1]
-        sh = AStocksHeader.objects.filter(stock_code=stock_code).first()
-        dp = AStocksDailyClsePrice()
-        dp.stock = sh
-        dp.exchange_date = changedate
-        dp.closing_price = round(float(closeprice),2)
-        dp.save()
-    count += 1
-    print('----------',count)
-
-#### 登出系统 ####
-bs.logout()
+if __name__ == '__main__':
+    import_closing_price()
