@@ -15,9 +15,9 @@ class AStocksCategory(models.Model):
 
 class AStocksHeader(models.Model):
     stock_name = models.CharField(max_length=20)  # 股票名
-    category = models.ForeignKey(AStocksCategory, models.CASCADE)  # 所属板块
+    category = models.ForeignKey(AStocksCategory, models.CASCADE, null=True)  # 所属板块
     stock_code = models.CharField(max_length=10) # 股票代码
-    area = models.CharField(max_length=10)  # 公司所在地
+    area = models.CharField(max_length=10, null=True)  # 公司所在地
     ipodate = models.DateField(default=dt.now(), null=True, blank=True) #上市时间
     outdate = models.DateField(default=dt.now(), null=True, blank=True) # 退市时间
     isdelisted = models.BooleanField(default=False)  #是否退市

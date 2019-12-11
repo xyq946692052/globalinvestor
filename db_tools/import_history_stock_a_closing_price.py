@@ -3,6 +3,7 @@ import sys
 import csv
 import tushare as ts
 import baostock as bs
+from time import time
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
@@ -17,8 +18,10 @@ import baostock as bs
 
 def import_closing_price():
     lg = bs.login()
-    shobjs = AStocksHeader.objects.all()
+    shobjs = AStocksHeader.objects.filter(id__gt=1000).all()
     count = 0
+    start = time()
+    print('start')
     for obj in shobjs:
         if obj.stock_code.startswith("6"):
             rs = bs.query_history_k_data_plus("sh.{}".format(obj.stock_code),
@@ -48,6 +51,7 @@ def import_closing_price():
             AStocksClsePrice.objects.create(**data)
         count += 1
         print('----------', count)
+    print("need time: ",time()-start)
     bs.logout()
 
 

@@ -14,6 +14,49 @@ django.setup()
 from cn_a_stocks.models import AStocksHeader, AStocksCategory
 
 
+
+def update_category_with_csvfile(filename):
+    with open(filename, 'r', encoding='utf-8') as f:
+        res = csv.reader(f)
+        for k in res:
+            sc = AStocksCategory()
+            sc.id = k[0]
+            sc.category_name = k[1]
+            sc.save()
+    print('inport finished...')
+
+
+def import_category_with_api():
+    import tushare as ts
+    pro = ts.pro_api('15ff201419345eabb82bb14409b7b0cb8f9eee89744fabd37119d015')
+    datas = pro.query('stock_basic', exchange='', list_status='L',
+                      fields='ts_code,symbol,name,area,industry,list_date').values
+    categorys = list(set(item[4] for item in datas if item[4] != None))
+
+    for item in categorys:
+        cv = AStocksCategory()
+        cv.category_name = item
+        cv.save()
+    print('finished...')
+
+
+def import_stocks_code_name_area_with_api():
+    import tushare as ts
+    pro = ts.pro_api('15ff201419345eabb82bb14409b7b0cb8f9eee89744fabd37119d015')
+    datas = pro.query('stock_basic', exchange='', list_status='L',
+                      fields='ts_code,symbol,name,area,industry,list_date').values
+    for index, item in enumerate(datas):
+        print(index)
+        ac = AStocksCategory.objects.filter(category_name=item[4]).first()
+        ah = AStocksHeader()
+        ah.stock_code = item[1]
+        ah.stock_name = item[2]
+        ah.area = item[3]
+        ah.category = ac
+        ah.save()
+
+    print('import finish...')
+
 #更新地区数据
 def update_area():
     datas = ts.get_stock_basics().values
@@ -24,7 +67,6 @@ def update_area():
             shobj.area = item[2]
             shobj.save()
     print('finish updated...')
-
 
 
 #更新上市时间,退市时间，以及是否是退市股
@@ -47,17 +89,6 @@ def update_ipodate():
             sb.save()
     print('update finished...')
     bs.logout()
-
-
-def update_category_with_csvfile(filename):
-    with open(filename, 'r', encoding='utf-8') as f:
-        res = csv.reader(f)
-        for k in res:
-            sc = AStocksCategory()
-            sc.id = k[0]
-            sc.category_name = k[1]
-            sc.save()
-    print('inport finished...')
 
 
 def update_header_with_csvfile(filename):
@@ -84,7 +115,7 @@ def update_header_with_csvfile(filename):
 def getStockBaseInfo():
     pro = ts.pro_api('15ff201419345eabb82bb14409b7b0cb8f9eee89744fabd37119d015')
     # 交易所代码 ，SSE上交所 SZSE深交所 ，默认SSE
-    df = pro.stock_company(exchange='SSE', fields='ts_code,reg_capital,website,business_scope,main_business,introduction').values
+    df = pro.stock_company(exchange='SZSE', fields='ts_code,reg_capital,website,business_scope,main_business,introduction').values
     res = []
     count = 0
     for code, reg_capital,introduction,website,business_scope,main_business in df:
@@ -104,8 +135,14 @@ def getStockBaseInfo():
 
 
 
+
 if __name__ == '__main__':
+    #import_category_with_api()
+    #import_stocks_code_name_area_with_api()
+    getStockBaseInfo()
     #update_ipodate()
     #update_category_with_csvfile('stocks_a_category.csv')
     #getStockBaseInfo()
     #update_header_with_csvfile('stocks_a_header.csv')
+    #get_all_stocks()
+    #import_category_with_api()
