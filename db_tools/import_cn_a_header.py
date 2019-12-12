@@ -115,7 +115,7 @@ def update_header_with_csvfile(filename):
 def getStockBaseInfo():
     pro = ts.pro_api('15ff201419345eabb82bb14409b7b0cb8f9eee89744fabd37119d015')
     # 交易所代码 ，SSE上交所 SZSE深交所 ，默认SSE
-    df = pro.stock_company(exchange='SZSE', fields='ts_code,reg_capital,website,business_scope,main_business,introduction').values
+    df = pro.stock_company(exchange='SSE', fields='ts_code,reg_capital,website,business_scope,main_business,introduction').values
     res = []
     count = 0
     for code, reg_capital,introduction,website,business_scope,main_business in df:

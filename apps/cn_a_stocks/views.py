@@ -63,11 +63,16 @@ def detail(request):
     view_stock_price(sobj)
 
     # 获取各个季度利润数据
-    ap_title, ap_datas = get_profit(sobj)
+    ap_datas = get_profit(sobj)
+    # 每个季度成长能力
+    ag_datas = get_growth(sobj)
+    # 偿债能力
+    ab_datas = get_balance(sobj)
 
     content = dict()
-    content['ap_title'] = ap_title
     content['ap_datas'] = ap_datas
+    content['ag_datas'] = ag_datas
+    content['ab_datas'] = ab_datas
     content['stockinfo'] = stockinfo
     content['sobj'] = sobj
     content['hour_price_url'] = hour_price_url
@@ -139,11 +144,8 @@ def get_stock_detail_info(area, stock_code):
         'unknow65',  # 65
         'unknow66',  # 66
         'unknow67',  # 67
-
     ])
-    si = StockInfo(*result)
-
-    return si
+    return StockInfo(*result)
 
 
 def get_stock_kimage_reference(stock_obj):
@@ -164,20 +166,51 @@ def get_stock_kimage_reference(stock_obj):
 
 def get_profit(stock_obj):
     ap_lst, ap_title = [], []
-    ap_title = ['季度', '净资产收益率(平均)', '销售净利率(%)', '销售毛利率(%)', '净利润(元)',
+    ap_title = ['季度', '盈利能力','净资产收益率(平均)', '销售净利率(%)', '销售毛利率(%)', '净利润(元)',
                 '每股收益', '主营营业收入(元)', '总股本', '流通股本']
     ap_objs = AStocksProfit.objects.filter(stock=stock_obj).all()
     for _o in ap_objs:
-        ap_lst.append([_o.stat_date, _o.roe_avg, _o.np_margin, _o.gp_margin, _o.net_profit,
+        ap_lst.append([_o.stat_date, '',_o.roe_avg, _o.np_margin, _o.gp_margin, _o.net_profit,
                        _o.epsttm, _o.mb_revenue, _o.total_share, _o.liqa_share])
-    #ap_datas = [item.insert(0, index) for (index, item) in enumerate(np.transpose(ap_lst).tolist())]
+
     ap_datas = []
     for index, item in enumerate(np.transpose(ap_lst).tolist()):
-        print(item.insert(0, index))
-        ap_datas.append(item.insert(0, index))
+        item.insert(0, ap_title[index])
+        ap_datas.append(item)
 
-    for k in ap_datas:
-        print(k)
+    return ap_datas
 
-    return ap_title, ap_datas
+
+def get_growth(stock_obj):
+    ag_lst, ag_title = [], []
+    ag_title = ['季度', '成长能力','净资产同比增长率', '总资产同比增长率', '净利润同比增长率', '基本每股收益同比增长率',
+                '归属母公司股东净利润同比增长率']
+    ag_objs = AStocksGrowth.objects.filter(stock=stock_obj).all()
+    for _o in ag_objs:
+        ag_lst.append([_o.stat_date, '', _o.yoy_equity, _o.yoy_asset, _o.yoy_ni, _o.yoy_eps_basic,
+                       _o.yoy_pni])
+
+    ag_datas = []
+    for index, item in enumerate(np.transpose(ag_lst).tolist()):
+        item.insert(0, ag_title[index])
+        ag_datas.append(item)
+
+    return ag_datas
+
+
+def get_balance(stock_obj):
+    ab_lst, ab_title = [], []
+    ab_title = ['季度', '偿债能力','流动比率', '速动比率', '现金比率', '总负债同比增长率',
+                '资产负债率', '权益乘数']
+    ab_objs = AStocksBalance.objects.filter(stock=stock_obj).all()
+    for _o in ab_objs:
+        ab_lst.append([_o.stat_date, '', _o.current_ratio, _o.quick_ratio, _o.cash_ratio, _o.yoy_liability,
+                       _o.liability_to_asset,_o.asset_to_equity])
+
+    ab_datas = []
+    for index, item in enumerate(np.transpose(ab_lst).tolist()):
+        item.insert(0, ab_title[index])
+        ab_datas.append(item)
+
+    return ab_datas
 

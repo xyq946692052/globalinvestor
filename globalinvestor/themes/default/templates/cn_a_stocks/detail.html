@@ -6,6 +6,15 @@
         .active{
             background-color: #00343F;
         }
+        #table-datas tbody>:first-child{
+            background-color: #F8F8FF;
+            font-weight: bold;
+        }
+        #table-datas tr>:first-child{
+            background-color: #F8F8FF;
+            font-weight: bold;
+        }
+
     </style>
 {% endblock %}
 {% block script %}
@@ -20,7 +29,7 @@
 
 {% block content %}
    <div class="row">
-        <div class="col-md-4" style="width:40%;">
+      <div class="col-md-4" style="width:40%;">
             <h2 style="display:inline;">{{ sobj.stock_name }}</h2> <span class="detail-stock_code">({{ sobj.stock_code }})</span>
 
             {% if sobj.now_price != None %}
@@ -98,27 +107,36 @@
             </div>
       </div>
 
-      <div class="col-md-8" style="width:50%;overflow-x:auto;">
-         <table class="table table-bordered">
+      <div class="col-md-8" style="width:58%;overflow-x:auto;">
+         <table id="table-datas" class="table table-bordered" style="table-layout:fixed;">
 
-            <tbody>
-               {% for items in ap_datas %}
-                <tr>
-                    {% for item in items %}
-                        <td>{{ item.index }}</td>
-                        <td>{{ item }}</td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
+             <tbody>
+                 {% for items in ap_datas %}
+                     <tr>
+                         {% for item in items %}
+                            <td style="width:130px">{{ item }}</td>
+                         {% endfor %}
+                     </tr>
+                 {% endfor %}
 
+                 {% for items in ag_datas %}
+                     <tr>
+                         {% for item in items %}
+                            <td style="width:130px">{{ item }}</td>
+                         {% endfor %}
+                     </tr>
+                 {% endfor %}
+                 {% for items in ab_datas %}
+                     <tr>
+                         {% for item in items %}
+                            <td style="width:130px">{{ item }}</td>
+                         {% endfor %}
+                     </tr>
+                 {% endfor %}
             </tbody>
         </table>
-
-
       </div>
    </div>
-
-
 
 </div>
 {% endblock %}
