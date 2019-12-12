@@ -13,6 +13,7 @@
         #table-datas tr>:first-child{
             background-color: #FAFAFA;
             font-weight: bold;
+            width:140px;
         }
 
     </style>
@@ -114,7 +115,7 @@
                  {% for items in ap_datas %}
                      <tr>
                          {% for item in items %}
-                            <td style="width:140px">{{ item }}</td>
+                            <td style="width:150px;">{{ item }}</td>
                          {% endfor %}
                      </tr>
                  {% endfor %}
@@ -122,14 +123,14 @@
                  {% for items in ag_datas %}
                      <tr>
                          {% for item in items %}
-                            <td style="width:130px">{{ item }}</td>
+                            <td>{{ item }}</td>
                          {% endfor %}
                      </tr>
                  {% endfor %}
                  {% for items in ab_datas %}
                      <tr>
                          {% for item in items %}
-                            <td style="width:130px">{{ item }}</td>
+                            <td>{{ item }}</td>
                          {% endfor %}
                      </tr>
                  {% endfor %}

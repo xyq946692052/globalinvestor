@@ -166,12 +166,13 @@ def get_stock_kimage_reference(stock_obj):
 
 def get_profit(stock_obj):
     ap_lst, ap_title = [], []
-    ap_title = ['季度', '盈利能力','净资产收益率(平均)', '销售净利率(%)', '销售毛利率(%)', '净利润(元)',
-                '每股收益', '主营营业收入(元)', '总股本', '流通股本']
+    ap_title = ['季度', '盈利能力','净资产收益率(%)', '销售净利率(%)', '销售毛利率(%)', '净利润(千万元)',
+                '每股收益', '主营营业收入(千万元)', '总股本(千万股)', '流通股本（千万股）']
     ap_objs = AStocksProfit.objects.filter(stock=stock_obj).all()
     for _o in ap_objs:
-        ap_lst.append([_o.stat_date, '',_o.roe_avg, _o.np_margin, _o.gp_margin, _o.net_profit,
-                       _o.epsttm, _o.mb_revenue, _o.total_share, _o.liqa_share])
+        ap_lst.append([_o.stat_date, '',round(_o.roe_avg*100, 2), round(_o.np_margin*100,2), round(_o.gp_margin*100,2),
+                       round(_o.net_profit/10000000,2),round(_o.epsttm,2), round(_o.mb_revenue/10000000,2),
+                       round(_o.total_share/10000000,2), round(_o.liqa_share/10000000,2)])
 
     ap_datas = []
     for index, item in enumerate(np.transpose(ap_lst).tolist()):
