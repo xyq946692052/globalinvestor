@@ -183,11 +183,11 @@ def get_profit(stock_obj):
 
 def get_growth(stock_obj):
     ag_lst, ag_title = [], []
-    ag_title = ['季度', '成长能力','净资产同比增长率', '总资产同比增长率', '净利润同比增长率', '基本每股收益同比增长率',
+    ag_title = ['成长能力','净资产同比增长率', '总资产同比增长率', '净利润同比增长率', '基本每股收益同比增长率',
                 '归属母公司股东净利润同比增长率']
     ag_objs = AStocksGrowth.objects.filter(stock=stock_obj).all()
     for _o in ag_objs:
-        ag_lst.append([_o.stat_date, '', _o.yoy_equity, _o.yoy_asset, _o.yoy_ni, _o.yoy_eps_basic,
+        ag_lst.append([ '', _o.yoy_equity, _o.yoy_asset, _o.yoy_ni, _o.yoy_eps_basic,
                        _o.yoy_pni])
 
     ag_datas = []
@@ -200,11 +200,11 @@ def get_growth(stock_obj):
 
 def get_balance(stock_obj):
     ab_lst, ab_title = [], []
-    ab_title = ['季度', '偿债能力','流动比率', '速动比率', '现金比率', '总负债同比增长率',
+    ab_title = ['偿债能力','流动比率', '速动比率', '现金比率', '总负债同比增长率',
                 '资产负债率', '权益乘数']
     ab_objs = AStocksBalance.objects.filter(stock=stock_obj).all()
     for _o in ab_objs:
-        ab_lst.append([_o.stat_date, '', _o.current_ratio, _o.quick_ratio, _o.cash_ratio, _o.yoy_liability,
+        ab_lst.append(['', _o.current_ratio, _o.quick_ratio, _o.cash_ratio, _o.yoy_liability,
                        _o.liability_to_asset,_o.asset_to_equity])
 
     ab_datas = []
