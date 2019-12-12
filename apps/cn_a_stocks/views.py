@@ -1,5 +1,7 @@
 import requests
 from collections import namedtuple
+import numpy as np
+from itertools import chain
 
 from django.shortcuts import render
 from django.conf import settings
@@ -54,25 +56,18 @@ def detail(request):
     stock_id = request.GET.get('sid', None)
     sobj = AStocksHeader.objects.get(pk=stock_id)
 
-    if sobj.stock_code.startswith('6'):
-        hour_price_url ='http://image.sinajs.cn/newchart/min/n/sh{}.gif'.format(sobj.stock_code)
-        daily_price_url = 'http://image.sinajs.cn/newchart/daily/n/sh{}.gif'.format(sobj.stock_code)
-        week_price_url = 'http://image.sinajs.cn/newchart/weekly/n/sh{}.gif'.format(sobj.stock_code)
-        month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sh{}.gif'.format(sobj.stock_code)
-        stockinfo = get_stock_detail_info('sh', sobj.stock_code)
-    else:
-        hour_price_url = 'http://image.sinajs.cn/newchart/min/n/sz{}.gif'.format(sobj.stock_code)
-        daily_price_url = 'http://image.sinajs.cn/newchart/daily/n/sz{}.gif'.format(sobj.stock_code)
-        week_price_url = 'http://image.sinajs.cn/newchart/weekly/n/sz{}.gif'.format(sobj.stock_code)
-        month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sz{}.gif'.format(sobj.stock_code)
-        stockinfo = get_stock_detail_info('sz', sobj.stock_code)
+    # 获取时，日，周，月的K线图以及股票参考指标
+    hour_price_url, daily_price_url, week_price_url, month_price_url,\
+        stockinfo = get_stock_kimage_reference(sobj)
+
     view_stock_price(sobj)
 
-    ap = AStocksProfit.objects.filter(stock=sobj).first()
-    print(ap)
-
+    # 获取各个季度利润数据
+    ap_title, ap_datas = get_profit(sobj)
 
     content = dict()
+    content['ap_title'] = ap_title
+    content['ap_datas'] = ap_datas
     content['stockinfo'] = stockinfo
     content['sobj'] = sobj
     content['hour_price_url'] = hour_price_url
@@ -84,11 +79,8 @@ def detail(request):
     return render(request, 'cn_a_stocks/detail.html', content)
 
 
-
 def get_stock_detail_info(area, stock_code):
     result = requests.get('http://sqt.gtimg.cn/q={}{}'.format(area, stock_code)).text.split('~')
-    for index, k in enumerate(result):
-        print(index, k)
     StockInfo = namedtuple('StockInfo', [
         'inx',
         'stock_name',
@@ -152,4 +144,40 @@ def get_stock_detail_info(area, stock_code):
     si = StockInfo(*result)
 
     return si
+
+
+def get_stock_kimage_reference(stock_obj):
+    if stock_obj.stock_code.startswith('6'):
+        hour_price_url ='http://image.sinajs.cn/newchart/min/n/sh{}.gif'.format(stock_obj.stock_code)
+        daily_price_url = 'http://image.sinajs.cn/newchart/daily/n/sh{}.gif'.format(stock_obj.stock_code)
+        week_price_url = 'http://image.sinajs.cn/newchart/weekly/n/sh{}.gif'.format(stock_obj.stock_code)
+        month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sh{}.gif'.format(stock_obj.stock_code)
+        stockinfo = get_stock_detail_info('sh', stock_obj.stock_code)
+    else:
+        hour_price_url = 'http://image.sinajs.cn/newchart/min/n/sz{}.gif'.format(stock_obj.stock_code)
+        daily_price_url = 'http://image.sinajs.cn/newchart/daily/n/sz{}.gif'.format(stock_obj.stock_code)
+        week_price_url = 'http://image.sinajs.cn/newchart/weekly/n/sz{}.gif'.format(stock_obj.stock_code)
+        month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sz{}.gif'.format(stock_obj.stock_code)
+        stockinfo = get_stock_detail_info('sz', stock_obj.stock_code)
+    return hour_price_url, daily_price_url,week_price_url,month_price_url, stockinfo
+
+
+def get_profit(stock_obj):
+    ap_lst, ap_title = [], []
+    ap_title = ['季度', '净资产收益率(平均)', '销售净利率(%)', '销售毛利率(%)', '净利润(元)',
+                '每股收益', '主营营业收入(元)', '总股本', '流通股本']
+    ap_objs = AStocksProfit.objects.filter(stock=stock_obj).all()
+    for _o in ap_objs:
+        ap_lst.append([_o.stat_date, _o.roe_avg, _o.np_margin, _o.gp_margin, _o.net_profit,
+                       _o.epsttm, _o.mb_revenue, _o.total_share, _o.liqa_share])
+    #ap_datas = [item.insert(0, index) for (index, item) in enumerate(np.transpose(ap_lst).tolist())]
+    ap_datas = []
+    for index, item in enumerate(np.transpose(ap_lst).tolist()):
+        print(item.insert(0, index))
+        ap_datas.append(item.insert(0, index))
+
+    for k in ap_datas:
+        print(k)
+
+    return ap_title, ap_datas
 

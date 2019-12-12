@@ -61,6 +61,7 @@ class AStocksProfit(models.Model):
 
     class Meta:
         db_table = 'stocks_a_profile'
+        ordering = ('-stat_date',)
 
 
 # 营运能力数据
