@@ -1,7 +1,6 @@
 import os
 import sys
-import csv
-import tushare as ts
+
 import baostock as bs
 from time import time
 
@@ -10,11 +9,19 @@ sys.path.insert(0, BASE_DIR)
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "globalinvestor.conf.test")
 import django
+from django.db.models import Q
 django.setup()
 
 from cn_a_stocks.models import AStocksHeader, AStocksCategory,AStocksClsePrice
 
-import baostock as bs
+
+def test_closing_price(stock_code, year):
+    sh = AStocksHeader.objects.filter(stock_code=stock_code).first()
+    print('=========',sh.id)
+    scp = AStocksClsePrice.objects.filter(Q(stock_id=sh.id),Q(exchange_date__lt='2007-01-01')).all()
+    for item in scp:
+        print(item.exchange_date,item.closing_price)
+
 
 def import_closing_price():
     lg = bs.login()
@@ -56,4 +63,5 @@ def import_closing_price():
 
 
 if __name__ == '__main__':
-    import_closing_price()
+    #import_closing_price()
+    test_closing_price('600897', '2018')

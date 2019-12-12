@@ -5,7 +5,9 @@ from django.shortcuts import render
 from django.conf import settings
 from django.shortcuts import render,HttpResponse
 
-from .models import AStocksCategory, AStocksHeader
+from .models import (AStocksCategory, AStocksHeader, AStocksProfit,
+                     AStocksCashFlow, AStocksBalance, AStocksGrowth,
+                     AStocksOperation, AStocksClsePrice)
 from utils import pages
 
 
@@ -65,6 +67,11 @@ def detail(request):
         month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sz{}.gif'.format(sobj.stock_code)
         stockinfo = get_stock_detail_info('sz', sobj.stock_code)
     view_stock_price(sobj)
+
+    ap = AStocksProfit.objects.filter(stock=sobj).first()
+    print(ap)
+
+
     content = dict()
     content['stockinfo'] = stockinfo
     content['sobj'] = sobj
