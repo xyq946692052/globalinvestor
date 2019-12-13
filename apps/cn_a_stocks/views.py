@@ -165,53 +165,44 @@ def get_stock_kimage_reference(stock_obj):
 
 
 def get_profit(stock_obj):
-    ap_lst, ap_title = [], []
-    ap_title = ['季度', '盈利能力','净资产收益率(%)', '销售净利率(%)', '销售毛利率(%)', '净利润(千万元)',
+    ap_lst, ap_title, ap_datas = [], [], []
+    ap_title = ['财务\季度', '盈利能力','净资产收益率(%)', '销售净利率(%)', '销售毛利率(%)', '净利润(千万元)',
                 '每股收益', '主营营业收入(千万元)', '总股本(千万股)', '流通股本（千万股）']
     ap_objs = AStocksProfit.objects.filter(stock=stock_obj).all()
     for _o in ap_objs:
         ap_lst.append([_o.stat_date, '',round(_o.roe_avg*100, 2), round(_o.np_margin*100,2), round(_o.gp_margin*100,2),
                        round(_o.net_profit/10000000,2),round(_o.epsttm,2), round(_o.mb_revenue/10000000,2),
                        round(_o.total_share/10000000,2), round(_o.liqa_share/10000000,2)])
-
-    ap_datas = []
-    for index, item in enumerate(np.transpose(ap_lst).tolist()):
-        item.insert(0, ap_title[index])
+    for idx, item in enumerate(np.transpose(ap_lst).tolist()):
+        item.insert(0, ap_title[idx])
         ap_datas.append(item)
-
     return ap_datas
 
 
 def get_growth(stock_obj):
-    ag_lst, ag_title = [], []
+    ag_lst, ag_title, ag_datas = [], [], []
     ag_title = ['成长能力','净资产同比增长率', '总资产同比增长率', '净利润同比增长率', '基本每股收益同比增长率',
                 '归属母公司股东净利润同比增长率']
     ag_objs = AStocksGrowth.objects.filter(stock=stock_obj).all()
     for _o in ag_objs:
-        ag_lst.append([ '', _o.yoy_equity, _o.yoy_asset, _o.yoy_ni, _o.yoy_eps_basic,
-                       _o.yoy_pni])
-
-    ag_datas = []
-    for index, item in enumerate(np.transpose(ag_lst).tolist()):
-        item.insert(0, ag_title[index])
+        ag_lst.append([ '', round(_o.yoy_equity*100, 2), round(_o.yoy_asset*100, 2), round(_o.yoy_ni*100, 2),
+                        round(_o.yoy_eps_basic*100, 2), round(_o.yoy_pni*100, 2)])
+    for idx, item in enumerate(np.transpose(ag_lst).tolist()):
+        item.insert(0, ag_title[idx])
         ag_datas.append(item)
-
     return ag_datas
 
 
 def get_balance(stock_obj):
-    ab_lst, ab_title = [], []
+    ab_lst, ab_title, ab_datas = [], [], []
     ab_title = ['偿债能力','流动比率', '速动比率', '现金比率', '总负债同比增长率',
                 '资产负债率', '权益乘数']
     ab_objs = AStocksBalance.objects.filter(stock=stock_obj).all()
     for _o in ab_objs:
-        ab_lst.append(['', _o.current_ratio, _o.quick_ratio, _o.cash_ratio, _o.yoy_liability,
-                       _o.liability_to_asset,_o.asset_to_equity])
-
-    ab_datas = []
-    for index, item in enumerate(np.transpose(ab_lst).tolist()):
-        item.insert(0, ab_title[index])
+        ab_lst.append(['',round(_o.current_ratio*100, 2), round(_o.quick_ratio*100, 2), round(_o.cash_ratio*100, 2),
+            round(_o.yoy_liability*100, 2), round(_o.liability_to_asset*100, 2), round(_o.asset_to_equity, 2)])
+    for idx, item in enumerate(np.transpose(ab_lst).tolist()):
+        item.insert(0, ab_title[idx])
         ab_datas.append(item)
-
     return ab_datas
 

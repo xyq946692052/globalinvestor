@@ -17,7 +17,7 @@ from cn_a_stocks.models import AStocksHeader, AStocksCashFlow
 def query_cashflow():
     # 接口提供的数据最早从2007年开始
     lg = bs.login()
-    shobjs = AStocksHeader.objects.all()
+    shobjs = AStocksHeader.objects.all()#all()
     count = 0
     start = time()
     for obj in shobjs:
@@ -34,6 +34,7 @@ def query_cashflow():
                     cash_flow_list.append(rs_profit.get_row_data())
         result_profit = pd.DataFrame(cash_flow_list, columns=rs_profit.fields).values
         for item in result_profit:
+            print(item)
             if any([item[3], item[4], item[5], item[6], item[7], item[8], item[9]]):
                 ac = AStocksCashFlow()
                 ac.stock = obj

@@ -3,17 +3,21 @@
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/customer/cn_a_stocks.css' %}" />
     <style>
-        .active{
-            background-color: #00343F;
-        }
+
         #table-datas tbody>:first-child{
-            background-color: #FAFAFA;
+            background-color: #E0EEEE;
             font-weight: bold;
+            font-size: 0.5em;
         }
         #table-datas tr>:first-child{
-            background-color: #FAFAFA;
+            background-color: #E0EEEE;
             font-weight: bold;
-            width:140px;
+            font-size: 0.5em;
+            width:125px;
+        }
+
+        #table-datas td:not(:nth-child(1)){
+            width:75px;
         }
 
     </style>
@@ -87,7 +91,7 @@
             </div>
 
            <div class="stock-base-info">
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="font-size:0.8em;">
                     <tr>
                         <td>开盘</td><td>{{ stockinfo.opening_price}}</td><td>最高</td><td>{{ stockinfo.today_highest}}</td>
                         <td>均价</td><td>{{ stockinfo.average_price}}</td><td>最低</td><td>{{ stockinfo.today_lowest}}</td>
@@ -108,14 +112,14 @@
             </div>
       </div>
 
-      <div class="col-md-8" style="width:58%;overflow-x:auto; height:800px;overflow-y:auto;">
+      <div class="col-md-8" style="margin-left:1%;width:58%;overflow-x:auto; height:800px;">
          <table id="table-datas" class="table table-bordered" style="table-layout:fixed;">
 
              <tbody>
                  {% for items in ap_datas %}
                      <tr>
                          {% for item in items %}
-                            <td style="width:150px;">{{ item }}</td>
+                            <td>{{ item }}</td>
                          {% endfor %}
                      </tr>
                  {% endfor %}

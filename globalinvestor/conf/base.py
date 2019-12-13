@@ -107,7 +107,7 @@ TIME_ZONE = 'Asia/Shanghai'
 USE_I18N = True
 
 USE_L10N = False
-DATE_FORMAT = 'Y-m-d' # 如要生效，需设置USE_L10N = False
+DATE_FORMAT = 'Y/m/d'  # 如要生效，需设置USE_L10N = False
 
 USE_TZ = True
 
