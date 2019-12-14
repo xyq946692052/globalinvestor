@@ -1,8 +1,10 @@
 import os
 import sys
+import csv
 
 import baostock as bs
 from time import time
+from datetime import datetime
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
@@ -21,6 +23,34 @@ def test_closing_price(stock_code, year):
     scp = AStocksClsePrice.objects.filter(Q(stock_id=sh.id),Q(exchange_date__lt='2007-01-01')).all()
     for item in scp:
         print(item.exchange_date,item.closing_price)
+
+
+def import_closing_price_with_file(filename):
+    count = 0
+    start = time()
+
+    sh_dic = {}
+    data = {}
+    error_lst = []
+    sh_lst = AStocksHeader.objects.all()
+    for sh in sh_lst:
+        sh_dic[sh.id] = sh
+
+    with open(filename, 'r') as f:
+        res = csv.reader(f)
+        for exchange_date, price, stockid in res:
+            if sh_dic.get(int(stockid)):
+                date_ft = datetime.strptime(exchange_date, '%d/%m/%Y').strftime('%Y-%m-%d')
+                data['stock'] = sh_dic.get(int(stockid))
+                data['exchange_date'] = date_ft
+                data['closing_price'] = price
+                AStocksClsePrice.objects.create(**data)
+                count += 1
+                print(count, sh_dic.get(int(stockid)))
+            else:
+                error_lst.append(stockid)
+    print('error: ', error_lst)
+    print('finish, need time: {}'.format(time()-start))
 
 
 def import_closing_price():
@@ -64,4 +94,5 @@ def import_closing_price():
 
 if __name__ == '__main__':
     #import_closing_price()
-    test_closing_price('600897', '2018')
+    #test_closing_price('600897', '2018')
+    import_closing_price_with_file('stocks_a_closing_price.csv')
