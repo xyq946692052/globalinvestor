@@ -38,8 +38,8 @@
             <li><a href="#half-year" data-toggle="tab">半年</a></li>
            <li><a href="#one-year" data-toggle="tab">一年</a></li>
            <li><a href="#three-year" data-toggle="tab">三年</a></li>
-           <li><a href="#one-year" data-toggle="tab">五年</a></li>
-           <li><a href="#three-year" data-toggle="tab">十年</a></li>
+           <li><a href="#five-year" data-toggle="tab">五年</a></li>
+           <li><a href="#ten-year" data-toggle="tab">十年</a></li>
 
         </ul>
 
@@ -75,7 +75,7 @@
                       <caption>近三个月的收益率</caption>
                       <thead>
                         <tr>
-                            <th>资产类型</th>
+                          <th>资产类型</th>
                           <th>股票</th>
                           <th>编号</th>
                           <th>收益率</th>
@@ -84,7 +84,7 @@
                       <tbody>
                         {% for item in three_month %}
                         <tr>
-                            <td>股票</td>
+                          <td>股票</td>
                           <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
                               {{ item|get_item:'stock_name'}}</a>
                           </td>
@@ -110,7 +110,7 @@
                       <tbody>
                         {% for item in half_year %}
                         <tr>
-                                 <td>股票</td>
+                          <td>股票</td>
                           <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
                               {{ item|get_item:'stock_name'}}</a>
                           </td>
@@ -127,7 +127,7 @@
                       <caption>近一年的收益率</caption>
                       <thead>
                         <tr>
-                            <th>资产类型</th>
+                          <th>资产类型</th>
                           <th>股票</th>
                           <th>编号</th>
                           <th>收益率</th>
@@ -136,7 +136,7 @@
                       <tbody>
                         {% for item in one_year %}
                         <tr>
-                                 <td>股票</td>
+                          <td>股票</td>
                           <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
                               {{ item|get_item:'stock_name'}}</a>
                           </td>
@@ -213,9 +213,9 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for item in three_year %}
+                        {% for item in ten_year %}
                         <tr>
-                                 <td>股票</td>
+                          <td>股票</td>
                           <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
                               {{ item|get_item:'stock_name'}}</a>
                           </td>

@@ -24,8 +24,10 @@ def update_all():
         ae.one_month = json.dumps(get_rank_earn_rate_lst(30))
         ae.three_month = json.dumps(get_rank_earn_rate_lst(90))
         ae.half_year = json.dumps(get_rank_earn_rate_lst(180))
-        ae['five_year'] = json.dumps(get_rank_earn_rate_lst(1800))
-        ae['ten_year'] = json.dumps(get_rank_earn_rate_lst(3600))
+        ae.one_year = json.dumps(get_rank_earn_rate_lst(360))
+        ae.three_year = json.dumps(get_rank_earn_rate_lst(1080))
+        ae.five_year = json.dumps(get_rank_earn_rate_lst(1800))
+        ae.ten_year = json.dumps(get_rank_earn_rate_lst(3600))
         ae.save()
     else:
         params = {}
