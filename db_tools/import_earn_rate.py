@@ -27,7 +27,7 @@ def update_all():
         ae.one_year = json.dumps(get_rank_earn_rate_lst(360))
         ae.three_year = json.dumps(get_rank_earn_rate_lst(1080))
         ae.five_year = json.dumps(get_rank_earn_rate_lst(1800))
-        ae.ten_year = json.dumps(get_rank_earn_rate_lst(3600))
+        ae.ten_year = json.dumps(get_rank_earn_rate_lst(3390))
         ae.save()
     else:
         params = {}
@@ -37,7 +37,7 @@ def update_all():
         params['one_year'] = json.dumps(get_rank_earn_rate_lst(360))
         params['three_year'] = json.dumps(get_rank_earn_rate_lst(1080))
         params['five_year'] = json.dumps(get_rank_earn_rate_lst(1800))
-        params['ten_year'] = json.dumps(get_rank_earn_rate_lst(3600))
+        params['ten_year'] = json.dumps(get_rank_earn_rate_lst(3390))
         AStocksEarnRate.objects.create(**params)
     print('finish update...')
 
@@ -52,7 +52,8 @@ def update_single(rank_type, rank_num):
 
 
 if __name__ == '__main__':
-    update_single('one_year', 360)
+   # update_single('one_year', 360)
+    update_all()
 
 
 
