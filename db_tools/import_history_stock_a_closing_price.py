@@ -20,7 +20,7 @@ from cn_a_stocks.models import AStocksHeader, AStocksCategory,AStocksClsePrice
 def test_closing_price(stock_code, year):
     sh = AStocksHeader.objects.filter(stock_code=stock_code).first()
     print('=========',sh.id)
-    scp = AStocksClsePrice.objects.filter(Q(stock_id=sh.id),Q(exchange_date__lt='2007-01-01')).all()
+    scp = AStocksClsePrice.objects.filter(Q(stock_id=sh.id),Q(exchange_date__lt='2012-01-01')).all()
     for item in scp:
         print(item.exchange_date,item.closing_price)
 
@@ -55,7 +55,7 @@ def import_closing_price_with_file(filename):
 
 def import_closing_price():
     lg = bs.login()
-    shobjs = AStocksHeader.objects.filter(id__gt=1000).all()
+    shobjs = AStocksHeader.objects.filter(id__lte=1000).all()
     count = 0
     start = time()
     print('start')
@@ -63,12 +63,12 @@ def import_closing_price():
         if obj.stock_code.startswith("6"):
             rs = bs.query_history_k_data_plus("sh.{}".format(obj.stock_code),
                 "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
-                start_date='2006-01-01', end_date='2019-12-31',
+                start_date='2006-01-01', end_date='2019-12-16',
                 frequency="d", adjustflag="3")
         else:
             rs = bs.query_history_k_data_plus("sz.{}".format(obj.stock_code),
                "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
-               start_date='2006-01-01', end_date='2019-12-31',
+               start_date='2006-01-01', end_date='2019-12-16',
                frequency="d", adjustflag="3")
 
         result_list = []
@@ -81,6 +81,9 @@ def import_closing_price():
             sh_dic[sh.stock_code] = sh.id
 
         for changedate, code, closeprice, _, _, _ ,_ in result_list:
+
+            # ap = AStocksClsePrice.objects.filter(exchange_date=changedate).first()
+            # if not ap:
             stock_code = code.split(".")[1]
             data['stock_id'] = sh_dic.get(stock_code)
             data['exchange_date'] = changedate
@@ -93,6 +96,6 @@ def import_closing_price():
 
 
 if __name__ == '__main__':
-    #import_closing_price()
+    import_closing_price()
     #test_closing_price('600897', '2018')
-    import_closing_price_with_file('stocks_a_closing_price.csv')
+    #import_closing_price_with_file('stocks_a_closing_price.csv')

@@ -2,6 +2,8 @@ from django.db import models
 
 from datetime import datetime as dt
 
+from django.utils import timezone
+
 class AStocksCategory(models.Model):
     """所属板块"""
     category_name = models.CharField(max_length=50)
@@ -37,7 +39,7 @@ class AStocksHeader(models.Model):
 
 class AStocksClsePrice(models.Model):
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
-    exchange_date = models.DateField(null=True)  #交易日
+    exchange_date = models.DateField(null=True, db_index=True)  #交易日
     closing_price = models.FloatField(default=0.0)  #收盘价
 
     class Meta:
@@ -129,9 +131,17 @@ class AStocksCashFlow(models.Model):
         db_table = 'stocks_a_cashflow'
 
 
+class AStocksEarnRate(models.Model):
+    one_month = models.TextField()
+    three_month = models.TextField()
+    half_year = models.TextField()
+    one_year = models.TextField()
+    three_year = models.TextField()
+    create_date = models.DateField(auto_now_add=timezone.now())
+    update_date = models.DateField(auto_now=timezone.now())
 
-
-
+    class Meta:
+        db_table = 'stocks_a_earnrate'
 
 
 

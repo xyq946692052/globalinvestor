@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
- {% load staticfiles %}
+{% load staticfiles %}
+{% load base %}
 {% block style %}
       <link rel="stylesheet" href="{% static 'css/customer/home.css' %}" />
 {% endblock %}
 
 {% block content %}
-   <div class="search">
+   <!-- <div class="search">
         <table>
             <tr>
                 <td>
@@ -24,7 +25,155 @@
                 </td>
             </tr>
         </table>
+    </div> -->
+
+    <div class="rank-earn-rate" style="width:60%" >
+       <ul id="myTab" class="nav nav-tabs">
+            <li class="active">
+                <a href="#one-month" data-toggle="tab">
+                     近一月
+                </a>
+            </li>
+           <li><a href="#three-month" data-toggle="tab">三个月</a></li>
+            <li><a href="#half-year" data-toggle="tab">半年</a></li>
+           <li><a href="#one-year" data-toggle="tab">一年</a></li>
+           <li><a href="#three-year" data-toggle="tab">三年</a></li>
+
+        </ul>
+
+        <div id="myTabContent" class="tab-content" style="width:100%">
+            <div class="tab-pane fade in active" id="one-month">
+                <table class="table table-bordered" style="width:100%">
+                      <caption>近一个月的收益率</caption>
+                      <thead>
+                        <tr>
+                            <th>资产类型</th>
+                            <th>股票</th>
+                            <th>编号</th>
+                            <th>收益率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in one_month %}
+                        <tr>
+                            <td>股票</td>
+                          <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
+                              {{ item|get_item:'stock_name'}}</a>
+                          </td>
+                          <td>{{ item|get_item:'stock_code'}}</td>
+                          <td>{{ item|get_item:'earn_rate'|floatformat:2}}%</td>
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+            </div>
+            <div class="tab-pane fade" id="three-month">
+                   <table class="table table-bordered">
+                      <caption>近三个月的收益率</caption>
+                      <thead>
+                        <tr>
+                            <th>资产类型</th>
+                          <th>股票</th>
+                          <th>编号</th>
+                          <th>收益率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in three_month %}
+                        <tr>
+                            <td>股票</td>
+                          <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
+                              {{ item|get_item:'stock_name'}}</a>
+                          </td>
+                          <td>{{ item|get_item:'stock_code'}}</td>
+                          <td>{{ item|get_item:'earn_rate'|floatformat:2}}%</td>
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+            </div>
+            <div class="tab-pane fade" id="half-year">
+                 <table class="table table-bordered">
+                      <caption>近半年的收益率</caption>
+                      <thead>
+                        <tr>
+                            <th>资产类型</th>
+                          <th>股票</th>
+                          <th>编号</th>
+                          <th>收益率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in half_year %}
+                        <tr>
+                                 <td>股票</td>
+                          <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
+                              {{ item|get_item:'stock_name'}}</a>
+                          </td>
+                          <td>{{ item|get_item:'stock_code'}}</td>
+                          <td>{{ item|get_item:'earn_rate'|floatformat:2}}%</td>
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+            </div>
+            <div class="tab-pane fade" id="one-year">
+                  <table class="table table-bordered">
+                      <caption>近一年的收益率</caption>
+                      <thead>
+                        <tr>
+                            <th>资产类型</th>
+                          <th>股票</th>
+                          <th>编号</th>
+                          <th>收益率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in one_year %}
+                        <tr>
+                                 <td>股票</td>
+                          <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
+                              {{ item|get_item:'stock_name'}}</a>
+                          </td>
+                          <td>{{ item|get_item:'stock_code'}}</td>
+                          <td>{{ item|get_item:'earn_rate'|floatformat:2}}%</td>
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+            </div>
+            <div class="tab-pane fade" id="three-year">
+                 <table class="table table-bordered">
+                      <caption>近三年的收益率</caption>
+                      <thead>
+                        <tr>
+                            <th>资产类型</th>
+                          <th>股票</th>
+                          <th>编号</th>
+                          <th>收益率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in three_year %}
+                        <tr>
+                                 <td>股票</td>
+                          <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
+                              {{ item|get_item:'stock_name'}}</a>
+                          </td>
+                          <td>{{ item|get_item:'stock_code'}}</td>
+                          <td>{{ item|get_item:'earn_rate'|floatformat:2}}%</td>
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+            </div>
+        </div>
+
     </div>
 
-   <img src="data:image/png;base64,{{ graphic|safe }}">
 {% endblock %}

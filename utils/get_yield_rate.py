@@ -1,25 +1,52 @@
-import os
-import sys
 from itertools import chain
 from datetime import datetime
+from operator import itemgetter
+
 from django.db.models import Q
 
 from cn_a_stocks.models import AStocksHeader, AStocksClsePrice
 
 
-def get_nearmonth_rate(ap_id):
-    current_year = datetime.now().year
+def get_single_earn_rate(ap_id, rank_num):
+
     ah = AStocksHeader.objects.get(pk=ap_id)
-    ap = AStocksClsePrice.objects.filter(Q(stock_id=ap_id), Q(exchange_date__year=current_year)).only('closing_price').values_list('closing_price')
+
+    if rank_num in [30, 90, 180]:
+        current_year = datetime.now().year
+        ap = AStocksClsePrice.objects.filter(Q(stock_id=ap_id),
+            Q(exchange_date__year=current_year)).only('closing_price').values_list('closing_price').iterator()
+    else:
+        ap = AStocksClsePrice.objects.filter(stock_id=ap_id).only('closing_price').values_list(
+            'closing_price').iterator()
+
     res_price = chain(*ap)
-    res = [ k for k in res_price]
-    if res and len(res) >= 30:
+    res = [k for k in res_price]
+
+    dt = {}
+    if res and len(res) >= rank_num:
         last_price = res[-1]
-        start_price = res[-30]
-        earn_rate = round((last_price - start_price) / start_price, 4)
-        dt = {}
+        start_price = res[-rank_num]
+        earn_rate = ((last_price - start_price) / start_price)*100
         dt['earn_rate'] = earn_rate
+        dt['stock_id'] = ap_id
         dt['stock_code'] = ah.stock_code
-        return dt
+        dt['stock_name'] = ah.stock_name
+    else:
+        dt['earn_rate'] = 0.0
+        dt['stock_id'] = ap_id
+        dt['stock_code'] = ah.stock_code
+        dt['stock_name'] = ah.stock_name
+    return dt
+
+
+def get_rank_earn_rate_lst(rank_num):
+    ah_ids = chain(*(AStocksHeader.objects.only('id').values_list('id').all()))
+    res = []
+    for sid in ah_ids:
+        res.append(get_single_earn_rate(sid, rank_num))
+    res_nearby_month = sorted(res, key=itemgetter('earn_rate'), reverse=True)
+    print('===========',res_nearby_month)
+    return res_nearby_month[:20]
+
 
 

@@ -1,35 +1,18 @@
-
-from datetime import datetime
-from time import time
-from itertools import chain
-from operator import itemgetter
-import traceback
-
+import json
 from django.shortcuts import render
-from django.db.models import Q
 
-from cn_a_stocks.models import AStocksClsePrice, AStocksHeader
-from utils.get_yield_rate import get_nearmonth_rate
-from utils.matplot_pic import draw_graph
+from utils.get_yield_rate import get_rank_earn_rate_lst
+from cn_a_stocks.models import AStocksEarnRate
 
 def home(request):
-    context = {}
-    current_year = datetime.now().year
+    context = dict()
 
-
-    ah_ids = chain(*(AStocksHeader.objects.only('id').values_list('id').all()))
-    datas = []
-    errlst = []
-    s1 = time()
-    for sid in ah_ids:
-        datas.append(get_nearmonth_rate(sid))
-    sorted(datas, key=itemgetter('earn_rate'))
-    print(len(datas))
-    for k in datas[:20]:
-        print(k)
-    print(time()-s1)
-
-
+    ae = AStocksEarnRate.objects.first()
+    context['one_month'] = json.loads(ae.one_month)
+    context['three_month'] = json.loads(ae.three_month)
+    context['half_year'] = json.loads(ae.half_year)
+    context['one_year'] = json.loads(ae.one_year)
+    context['three_year'] = json.loads(ae.three_year)
 
     return render(request, 'home.html', context)
 

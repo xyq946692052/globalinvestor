@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'globalinvestor',
     'cn_a_stocks',
     'cn_hk_stocks',
     'us_stocks',

@@ -5,7 +5,7 @@ import base64
 import io
 from PIL import Image
 
-
+# 在template 显示则应写成:  <img src="data:image/png;base64,{{ graphic|safe }}">
 def draw_graph(xdata, ydata, title=None):
     xdatas = np.array(xdata)
     ydatas = np.array(ydata)
