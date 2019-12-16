@@ -137,6 +137,8 @@ class AStocksEarnRate(models.Model):
     half_year = models.TextField()
     one_year = models.TextField()
     three_year = models.TextField()
+    five_year = models.TextField()
+    ten_year = models.TextField()
     create_date = models.DateField(auto_now_add=timezone.now())
     update_date = models.DateField(auto_now=timezone.now())
 

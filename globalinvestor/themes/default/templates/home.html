@@ -38,6 +38,8 @@
             <li><a href="#half-year" data-toggle="tab">半年</a></li>
            <li><a href="#one-year" data-toggle="tab">一年</a></li>
            <li><a href="#three-year" data-toggle="tab">三年</a></li>
+           <li><a href="#one-year" data-toggle="tab">五年</a></li>
+           <li><a href="#three-year" data-toggle="tab">十年</a></li>
 
         </ul>
 
@@ -149,6 +151,59 @@
             <div class="tab-pane fade" id="three-year">
                  <table class="table table-bordered">
                       <caption>近三年的收益率</caption>
+                      <thead>
+                        <tr>
+                            <th>资产类型</th>
+                          <th>股票</th>
+                          <th>编号</th>
+                          <th>收益率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in three_year %}
+                        <tr>
+                                 <td>股票</td>
+                          <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
+                              {{ item|get_item:'stock_name'}}</a>
+                          </td>
+                          <td>{{ item|get_item:'stock_code'}}</td>
+                          <td>{{ item|get_item:'earn_rate'|floatformat:2}}%</td>
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+            </div>
+
+             <div class="tab-pane fade" id="five-year">
+                 <table class="table table-bordered">
+                      <caption>近五年的收益率</caption>
+                      <thead>
+                        <tr>
+                            <th>资产类型</th>
+                          <th>股票</th>
+                          <th>编号</th>
+                          <th>收益率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in five_year %}
+                        <tr>
+                                 <td>股票</td>
+                          <td><a href="/cn_a_stocks/detail?sid={{ item|get_item:'stock_id'}}">
+                              {{ item|get_item:'stock_name'}}</a>
+                          </td>
+                          <td>{{ item|get_item:'stock_code'}}</td>
+                          <td>{{ item|get_item:'earn_rate'|floatformat:2}}%</td>
+                        </tr>
+                      {% endfor %}
+
+                      </tbody>
+                    </table>
+            </div>
+             <div class="tab-pane fade" id="ten-year">
+                 <table class="table table-bordered">
+                      <caption>近十年的收益率</caption>
                       <thead>
                         <tr>
                             <th>资产类型</th>

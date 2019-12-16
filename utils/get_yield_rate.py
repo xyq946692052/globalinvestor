@@ -10,7 +10,6 @@ from cn_a_stocks.models import AStocksHeader, AStocksClsePrice
 def get_single_earn_rate(ap_id, rank_num):
 
     ah = AStocksHeader.objects.get(pk=ap_id)
-
     if rank_num in [30, 90, 180]:
         current_year = datetime.now().year
         ap = AStocksClsePrice.objects.filter(Q(stock_id=ap_id),
@@ -45,7 +44,6 @@ def get_rank_earn_rate_lst(rank_num):
     for sid in ah_ids:
         res.append(get_single_earn_rate(sid, rank_num))
     res_nearby_month = sorted(res, key=itemgetter('earn_rate'), reverse=True)
-    print('===========',res_nearby_month)
     return res_nearby_month[:20]
 
 

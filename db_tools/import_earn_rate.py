@@ -17,15 +17,15 @@ from utils.get_yield_rate import get_rank_earn_rate_lst
 
 def update_all():
     current = dt.now()
+
     ae = AStocksEarnRate.objects.filter(Q(update_date__year=current.year),
-                                        Q(update_date__month=current.month),
-                                        Q(update_date__date=current.date)).first()
+                                        Q(update_date__month=current.month)).first()
     if ae:
         ae.one_month = json.dumps(get_rank_earn_rate_lst(30))
         ae.three_month = json.dumps(get_rank_earn_rate_lst(90))
         ae.half_year = json.dumps(get_rank_earn_rate_lst(180))
-        ae.one_year = json.dumps(get_rank_earn_rate_lst(360))
-        ae.three_year = json.dumps(get_rank_earn_rate_lst(1080))
+        ae['five_year'] = json.dumps(get_rank_earn_rate_lst(1800))
+        ae['ten_year'] = json.dumps(get_rank_earn_rate_lst(3600))
         ae.save()
     else:
         params = {}
@@ -34,6 +34,8 @@ def update_all():
         params['half_year'] = json.dumps(get_rank_earn_rate_lst(180))
         params['one_year'] = json.dumps(get_rank_earn_rate_lst(360))
         params['three_year'] = json.dumps(get_rank_earn_rate_lst(1080))
+        params['five_year'] = json.dumps(get_rank_earn_rate_lst(1800))
+        params['ten_year'] = json.dumps(get_rank_earn_rate_lst(3600))
         AStocksEarnRate.objects.create(**params)
     print('finish update...')
 

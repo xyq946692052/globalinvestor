@@ -13,6 +13,8 @@ def home(request):
     context['half_year'] = json.loads(ae.half_year)
     context['one_year'] = json.loads(ae.one_year)
     context['three_year'] = json.loads(ae.three_year)
+    context['five_year'] = json.loads(ae.five_year)
+    context['ten_year'] = json.loads(ae.ten_year)
 
     return render(request, 'home.html', context)
 
