@@ -38,6 +38,11 @@ source /usr/local/python3/bin/virtualenvwrapper.sh #执行virtualenvwrapper安�
 读取文件，使得生效，此时已经可以使用virtalenvwrapper
 <br>5、使文件立即生效：[root@localhost ~]# source  ~/.bash_profile
 
+
+## 安装xadmin2.0
+1、下载zip包，https://github.com/sshwsfc/xadmin/tree/django2
+2、安装 pip install xadmin-django2
+
 ## 项目运行步骤：
 
 <br>   4、git clone https://github.com/xyq946692052/globalinvestor

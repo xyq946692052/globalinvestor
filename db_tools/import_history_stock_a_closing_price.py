@@ -19,8 +19,7 @@ from cn_a_stocks.models import AStocksHeader, AStocksCategory,AStocksClsePrice
 
 def test_closing_price(stock_code, year):
     sh = AStocksHeader.objects.filter(stock_code=stock_code).first()
-    print('=========',sh.id)
-    scp = AStocksClsePrice.objects.filter(Q(stock_id=sh.id),Q(exchange_date__lt='2012-01-01')).all()
+    scp = AStocksClsePrice.objects.filter(Q(stock_id=sh.id), Q(exchange_date__lt='2012-01-01')).all()
     for item in scp:
         print(item.exchange_date,item.closing_price)
 
@@ -53,22 +52,22 @@ def import_closing_price_with_file(filename):
     print('finish, need time: {}'.format(time()-start))
 
 
-def import_closing_price():
+def import_closing_price(start_date, end_date):
     lg = bs.login()
-    shobjs = AStocksHeader.objects.filter(id__lte=1000).all()
+    shobjs = AStocksHeader.objects.all()
     count = 0
     start = time()
     print('start')
     for obj in shobjs:
         if obj.stock_code.startswith("6"):
             rs = bs.query_history_k_data_plus("sh.{}".format(obj.stock_code),
-                "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
-                start_date='2006-01-01', end_date='2019-12-16',
+                "date, code, close, peTTM, pbMRQ, psTTM, pcfNcfTTM",
+                start_date=start_date, end_date=end_date,
                 frequency="d", adjustflag="3")
         else:
             rs = bs.query_history_k_data_plus("sz.{}".format(obj.stock_code),
-               "date,code,close,peTTM,pbMRQ,psTTM,pcfNcfTTM",
-               start_date='2006-01-01', end_date='2019-12-16',
+               "date, code, close, peTTM, pbMRQ, psTTM, pcfNcfTTM",
+               start_date=start_date, end_date=end_date,
                frequency="d", adjustflag="3")
 
         result_list = []
@@ -80,7 +79,7 @@ def import_closing_price():
         for sh in sh_lst:
             sh_dic[sh.stock_code] = sh.id
 
-        for changedate, code, closeprice, _, _, _ ,_ in result_list:
+        for changedate, code, closeprice, _, _, _, _ in result_list:
 
             # ap = AStocksClsePrice.objects.filter(exchange_date=changedate).first()
             # if not ap:
@@ -91,11 +90,11 @@ def import_closing_price():
             AStocksClsePrice.objects.create(**data)
         count += 1
         print('----------', count)
-    print("need time: ",time()-start)
+    print("need time: ", time()-start)
     bs.logout()
 
 
 if __name__ == '__main__':
-    import_closing_price()
+    import_closing_price('2019-12-17', '2019-12-30')
     #test_closing_price('600897', '2018')
     #import_closing_price_with_file('stocks_a_closing_price.csv')

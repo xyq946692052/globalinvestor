@@ -1,7 +1,6 @@
 import json
 from django.shortcuts import render
 
-from utils.get_yield_rate import get_rank_earn_rate_lst
 from cn_a_stocks.models import AStocksEarnRate
 
 def home(request):

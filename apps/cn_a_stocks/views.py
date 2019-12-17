@@ -1,19 +1,16 @@
 import requests
 from collections import namedtuple
 import numpy as np
-from itertools import chain
 
 from django.shortcuts import render
-from django.conf import settings
-from django.shortcuts import render,HttpResponse
 
-from .models import (AStocksCategory, AStocksHeader, AStocksProfit,
-                     AStocksCashFlow, AStocksBalance, AStocksGrowth,
-                     AStocksOperation, AStocksClsePrice)
 from utils import pages
+from .models import ( AStocksHeader, AStocksProfit,
+                      AStocksBalance, AStocksGrowth)
 
 
 def view_stock_price(objs):
+    """获取当前股价以及涨幅百分比"""
     if objs.stock_code.startswith('6'):
         links = 'http://hq.sinajs.cn/list=sh{}'.format(objs.stock_code)
     else:
@@ -32,6 +29,7 @@ def view_stock_price(objs):
 
 
 def index(request):
+    """A股首页"""
     name_code = request.GET.get('name_code', None)
     if name_code:
         if name_code.isdigit():
@@ -52,39 +50,40 @@ def index(request):
 
 
 def detail(request):
-
+    """A股个股详情页"""
     stock_id = request.GET.get('sid', None)
-    sobj = AStocksHeader.objects.get(pk=stock_id)
+    stock_obj = AStocksHeader.objects.get(pk=stock_id)
 
     # 获取时，日，周，月的K线图以及股票参考指标
     hour_price_url, daily_price_url, week_price_url, month_price_url,\
-        stockinfo = get_stock_kimage_reference(sobj)
+        stockinfo = get_stock_kimage_reference(stock_obj)
 
-    view_stock_price(sobj)
+    view_stock_price(stock_obj)
 
     # 获取各个季度利润数据
-    ap_datas = get_profit(sobj)
+    ap_datas = get_profit(stock_obj)
     # 每个季度成长能力
-    ag_datas = get_growth(sobj)
+    ag_datas = get_growth(stock_obj)
     # 偿债能力
-    ab_datas = get_balance(sobj)
+    ab_datas = get_balance(stock_obj)
 
     content = dict()
     content['ap_datas'] = ap_datas
     content['ag_datas'] = ag_datas
     content['ab_datas'] = ab_datas
     content['stockinfo'] = stockinfo
-    content['sobj'] = sobj
+    content['sobj'] = stock_obj
     content['hour_price_url'] = hour_price_url
     content['daily_price_url'] = daily_price_url
     content['week_price_url'] = week_price_url
     content['month_price_url'] = month_price_url
-    if sobj.introduction:
-        content['company_info'] = sobj.introduction[:20]
+    if stock_obj.introduction:
+        content['company_info'] = stock_obj.introduction[:20]
     return render(request, 'cn_a_stocks/detail.html', content)
 
 
 def get_stock_detail_info(area, stock_code):
+    """获取个股指标数据"""
     result = requests.get('http://sqt.gtimg.cn/q={}{}'.format(area, stock_code)).text.split('~')
     StockInfo = namedtuple('StockInfo', [
         'inx',
@@ -93,7 +92,7 @@ def get_stock_detail_info(area, stock_code):
         'newest_price',  # 最新报价
         'closing_price',  # 昨天收盘价
         'opening_price',  # 开盘价
-        'transation_num',  #成交量(万）
+        'transation_num',  # 成交量(万）
         'the_outer',   # 外盘
         'the_inner',   # 内盘  9
         'buy_1_price', 'buy_1_num',
@@ -112,7 +111,7 @@ def get_stock_detail_info(area, stock_code):
         'change_price_percent',   # 涨跌幅
         'today_highest',   # 今日最高
         'today_lowest',   # 今日最低
-        'close_num_price',  #收盘价/成交量/成交额
+        'close_num_price',  # 收盘价/成交量/成交额
         'tradenum',  # 成交量(万手)
         'tradeprice',  # 成交额（万股）
         'turnover_rate',  # 换手率
@@ -149,6 +148,7 @@ def get_stock_detail_info(area, stock_code):
 
 
 def get_stock_kimage_reference(stock_obj):
+    """获取K线图"""
     if stock_obj.stock_code.startswith('6'):
         hour_price_url ='http://image.sinajs.cn/newchart/min/n/sh{}.gif'.format(stock_obj.stock_code)
         daily_price_url = 'http://image.sinajs.cn/newchart/daily/n/sh{}.gif'.format(stock_obj.stock_code)
@@ -161,10 +161,11 @@ def get_stock_kimage_reference(stock_obj):
         week_price_url = 'http://image.sinajs.cn/newchart/weekly/n/sz{}.gif'.format(stock_obj.stock_code)
         month_price_url = 'http://image.sinajs.cn/newchart/monthly/n/sz{}.gif'.format(stock_obj.stock_code)
         stockinfo = get_stock_detail_info('sz', stock_obj.stock_code)
-    return hour_price_url, daily_price_url,week_price_url,month_price_url, stockinfo
+    return hour_price_url, daily_price_url, week_price_url, month_price_url, stockinfo
 
 
 def get_profit(stock_obj):
+    """获取盈利数据"""
     ap_lst, ap_title, ap_datas = [], [], []
     ap_title = ['财务\季度', '盈利能力','净资产收益率(%)', '销售净利率(%)', '销售毛利率(%)', '净利润(千万元)',
                 '每股收益', '主营营业收入(千万元)', '总股本(千万股)', '流通股本（千万股）']
@@ -180,6 +181,7 @@ def get_profit(stock_obj):
 
 
 def get_growth(stock_obj):
+    """获取成长能力数据"""
     ag_lst, ag_title, ag_datas = [], [], []
     ag_title = ['成长能力','净资产同比增长率', '总资产同比增长率', '净利润同比增长率', '基本每股收益同比增长率',
                 '归属母公司股东净利润同比增长率']
@@ -194,6 +196,7 @@ def get_growth(stock_obj):
 
 
 def get_balance(stock_obj):
+    """获取偿债能力数据"""
     ab_lst, ab_title, ab_datas = [], [], []
     ab_title = ['偿债能力','流动比率', '速动比率', '现金比率', '总负债同比增长率',
                 '资产负债率', '权益乘数']

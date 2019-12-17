@@ -4,11 +4,13 @@ from datetime import datetime as dt
 
 from django.utils import timezone
 
+
 class AStocksCategory(models.Model):
     """所属板块"""
     category_name = models.CharField(max_length=50)
 
     class Meta:
+        verbose_name = verbose_name_plural = '板块'
         db_table = 'stocks_a_category'
 
     def __str__(self):
@@ -16,18 +18,19 @@ class AStocksCategory(models.Model):
 
 
 class AStocksHeader(models.Model):
+    """股票基本信息"""
     stock_name = models.CharField(max_length=20)  # 股票名
     category = models.ForeignKey(AStocksCategory, models.CASCADE, null=True)  # 所属板块
-    stock_code = models.CharField(max_length=10) # 股票代码
+    stock_code = models.CharField(max_length=10)  # 股票代码
     area = models.CharField(max_length=10, null=True)  # 公司所在地
-    ipodate = models.DateField(default=dt.now(), null=True, blank=True) #上市时间
-    outdate = models.DateField(default=dt.now(), null=True, blank=True) # 退市时间
-    isdelisted = models.BooleanField(default=False)  #是否退市
+    ipodate = models.DateField(default=dt.now(), null=True, blank=True)  # 上市时间
+    outdate = models.DateField(default=dt.now(), null=True, blank=True)  # 退市时间
+    isdelisted = models.BooleanField(default=False)   # 是否退市
     reg_capital = models.FloatField(default=0.0)  # 注册资本
     introduction = models.TextField(null=True)  # 公司介绍
-    website = models.URLField(null=True, max_length=500) #公司主页
-    main_business = models.TextField(null=True)  #主营业务
-    business_scope = models.TextField(null=True)  #经营范围
+    website = models.URLField(null=True, max_length=500)  # 公司主页
+    main_business = models.TextField(null=True)   # 主营业务
+    business_scope = models.TextField(null=True)   # 经营范围
 
     class Meta:
         ordering = ('stock_code', )
@@ -38,20 +41,22 @@ class AStocksHeader(models.Model):
 
 
 class AStocksClsePrice(models.Model):
+    """股票收盘价信息"""
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
-    exchange_date = models.DateField(null=True, db_index=True)  #交易日
-    closing_price = models.FloatField(default=0.0)  #收盘价
+    exchange_date = models.DateField(null=True, db_index=True)  # 交易日
+    closing_price = models.FloatField(default=0.0)  # 收盘价
 
     class Meta:
         db_table = 'stocks_a_closing_price'
 
 
-# 盈利数据
+
 class AStocksProfit(models.Model):
+    """盈利能力"""
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
-    pub_date = models.DateField(null=True)  #公司发布财报的日期
+    pub_date = models.DateField(null=True)  # 公司发布财报的日期
     stat_date = models.DateField(null=True)  # 财报统计的季度最后一天
-    roe_avg = models.FloatField()  #净资产收益率(平均)%
+    roe_avg = models.FloatField()  # 净资产收益率(平均)%
     np_margin = models.FloatField()  # 销售净利率（%）
     gp_margin = models.FloatField()  # 销售毛利率（%）
     net_profit = models.FloatField()  # 净利润(元）
@@ -66,8 +71,8 @@ class AStocksProfit(models.Model):
         ordering = ('-stat_date',)
 
 
-# 营运能力数据
 class AStocksOperation(models.Model):
+    """营运能力"""
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
     pub_date = models.DateField(null=True)  # 公司发布财报的日期
     stat_date = models.DateField(null=True)  # 财报统计的季度的最后一天
@@ -77,14 +82,14 @@ class AStocksOperation(models.Model):
     inv_turn_days = models.FloatField()   # 存货周转天数(天)
     ca_turn_ratio = models.FloatField()   # 流动资产周转率(次)
     asset_turn_ratio = models.FloatField()  # 总资产周转率
-    is_year_report = models.BooleanField(default=False) # 是否是年报
+    is_year_report = models.BooleanField(default=False)  # 是否是年报
 
     class Meta:
         db_table = 'stocks_a_operation'
 
 
-# 成长能力
 class AStocksGrowth(models.Model):
+    """成长能力"""
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
     pub_date = models.DateField(null=True)  # 公司发布财报的日期
     stat_date = models.DateField(null=True)  # 财报统计的季度的最后一天
@@ -98,8 +103,8 @@ class AStocksGrowth(models.Model):
         db_table = 'stocks_a_growth'
 
 
-# 偿债能力
 class AStocksBalance(models.Model):
+    """偿债能力"""
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
     pub_date = models.DateField(null=True)  # 公司发布财报的日期
     stat_date = models.DateField(null=True)  # 财报统计的季度的最后一天
@@ -114,8 +119,8 @@ class AStocksBalance(models.Model):
         db_table = 'stocks_a_balance'
 
 
-#现金流量
 class AStocksCashFlow(models.Model):
+    """现金流量"""
     stock = models.ForeignKey(AStocksHeader, models.CASCADE)
     pub_date = models.DateField(null=True)  # 公司发布财报的日期
     stat_date = models.DateField(null=True)  # 财报统计的季度的最后一天
@@ -132,6 +137,7 @@ class AStocksCashFlow(models.Model):
 
 
 class AStocksEarnRate(models.Model):
+    """收益率数据"""
     one_month = models.TextField()
     three_month = models.TextField()
     half_year = models.TextField()

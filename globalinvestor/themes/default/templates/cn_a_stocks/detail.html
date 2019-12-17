@@ -2,25 +2,6 @@
 {% load static %}
 {% block style %}
     <link rel="stylesheet" href="{% static 'css/customer/cn_a_stocks.css' %}" />
-    <style>
-
-        #table-datas tbody>:first-child{
-            background-color: #E0EEEE;
-            font-weight: bold;
-            font-size: 0.5em;
-        }
-        #table-datas tr>:first-child{
-            background-color: #E0EEEE;
-            font-weight: bold;
-            font-size: 0.5em;
-            width:125px;
-        }
-
-        #table-datas td:not(:nth-child(1)){
-            width:75px;
-        }
-
-    </style>
 {% endblock %}
 {% block script %}
     <script>
@@ -31,10 +12,9 @@
 {% endblock %}
 
 
-
 {% block content %}
    <div class="row">
-      <div class="col-md-4" style="width:40%;">
+      <div class="col-md-5">
             <h2 style="display:inline;">{{ sobj.stock_name }}</h2> <span class="detail-stock_code">({{ sobj.stock_code }})</span>
 
             {% if sobj.now_price != None %}
@@ -112,7 +92,7 @@
             </div>
       </div>
 
-      <div  class="col-md-8" style="margin-left:1%;width:58%;overflow-x:auto; height:800px;">
+      <div  class="col-md-7" style="overflow-x:auto; height:800px;">
          <table id="table-datas" class="table table-bordered" style="table-layout:fixed;">
 
              <tbody>

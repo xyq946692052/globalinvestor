@@ -40,11 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'globalinvestor',
-    'cn_a_stocks',
+    'cn_a_stocks.apps.CnAStocksConfig',
     'cn_hk_stocks',
     'us_stocks',
     'cryptocurrency',
+
+    # xadmin
+    'xadmin',
+    'crispy_forms',
+
 ]
 
 MIDDLEWARE = [
@@ -127,3 +133,6 @@ STATICFILES_DIRS = [
 PAGINATOR_NUM = 16
 
 SINAAPI = 'http://hq.sinajs.cn/'
+
+XADMIN_TITLE = 'Global Investor'
+XADMIN_FOOTER_TITLE = 'Global Investor'

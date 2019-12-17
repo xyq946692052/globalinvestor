@@ -47,6 +47,7 @@
 }
 .kline-img{
     margin-top:2%;
+
 }
 .stock-company-info{
     width: 60%;
@@ -58,4 +59,20 @@
     height: 100px;
     background-color: #f9f9f9;
     display: inline;
+}
+
+#table-datas tbody>:first-child{
+    background-color: #E0EEEE;
+    font-weight: bold;
+    font-size: 0.5em;
+}
+#table-datas tr>:first-child{
+    background-color: #E0EEEE;
+    font-weight: bold;
+    font-size: 0.5em;
+    width:125px;
+}
+
+#table-datas td:not(:nth-child(1)){
+    width:75px;
 }

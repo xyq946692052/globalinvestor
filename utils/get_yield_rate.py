@@ -41,8 +41,11 @@ def get_single_earn_rate(ap_id, rank_num):
 def get_rank_earn_rate_lst(rank_num):
     ah_ids = chain(*(AStocksHeader.objects.only('id').values_list('id').all()))
     res = []
+    count = 0
     for sid in ah_ids:
+        count += 1
         res.append(get_single_earn_rate(sid, rank_num))
+        print(count)
     res_nearby_month = sorted(res, key=itemgetter('earn_rate'), reverse=True)
     return res_nearby_month[:20]
 
