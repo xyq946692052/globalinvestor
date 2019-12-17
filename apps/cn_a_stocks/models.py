@@ -11,6 +11,7 @@ class AStocksCategory(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = '板块'
+        ordering = ('category_name', )
         db_table = 'stocks_a_category'
 
     def __str__(self):

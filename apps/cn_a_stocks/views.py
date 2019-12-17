@@ -5,7 +5,7 @@ import numpy as np
 from django.shortcuts import render
 
 from utils import pages
-from .models import ( AStocksHeader, AStocksProfit,
+from .models import ( AStocksCategory, AStocksHeader, AStocksProfit,
                       AStocksBalance, AStocksGrowth)
 
 
@@ -40,6 +40,7 @@ def index(request):
         sh_objs = AStocksHeader.objects.filter(isdelisted=False).all()
 
     context = dict()
+    context['categories'] = AStocksCategory.objects.all()
     context['sh'], context['page_of_obj'], context['range_page'] = \
         pages.get_page_range(request, sh_objs)
 
