@@ -1,16 +1,17 @@
 import requests
-from collections import namedtuple
+import json
 import numpy as np
+from collections import namedtuple
 
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 
 from utils import pages
-from .models import ( AStocksCategory, AStocksHeader, AStocksProfit,
+from .models import (AStocksCategory, AStocksHeader, AStocksProfit,
                       AStocksBalance, AStocksGrowth)
 
 
 def view_stock_price(objs):
-    """获取当前股价以及涨幅百分比"""
+    """获取当前个股股价以及涨幅百分比"""
     if objs.stock_code.startswith('6'):
         links = 'http://hq.sinajs.cn/list=sh{}'.format(objs.stock_code)
     else:
@@ -28,6 +29,33 @@ def view_stock_price(objs):
                 setattr(objs, 'price_change', None)
 
 
+def view_stocks_price_lst(objs_lst):
+    """获取一组股票当前价格"""
+    stock_code_lst, price_lst = [], []
+    for item in objs_lst:
+        if item.stock_code.startswith('6'):
+            stock_code_lst.append("sh{}".format(item.stock_code))
+        else:
+            stock_code_lst.append("sz{}".format(item.stock_code))
+    stock_code_str = ",".join(stock_code_lst)
+    sina_stock_link = "http://hq.sinajs.cn/list={}".format(stock_code_str)
+    stocks_info = requests.get(sina_stock_link).text.split('var')
+
+    for item_info in stocks_info:
+        if len(item_info.split(',')) > 5:
+            last_price, now_price = item_info.split(',')[2], item_info.split(',')[3]
+            if float(last_price) != 0:
+                rate_change = (float(now_price) / float(last_price) - 1) * 100
+                price_change = round(rate_change, 2)
+                price_lst.append((now_price, price_change))
+            else:
+                price_lst.append(('', ''))
+
+    for i, item in enumerate(price_lst):
+        setattr(objs_lst[i], 'now_price', item[0])
+        setattr(objs_lst[i], 'price_change', item[1])
+
+
 def index(request):
     """A股首页"""
     name_code = request.GET.get('name_code', None)
@@ -40,12 +68,17 @@ def index(request):
         sh_objs = AStocksHeader.objects.filter(isdelisted=False).all()
 
     context = dict()
-    context['categories'] = AStocksCategory.objects.all()
+    cname_lst = AStocksCategory.objects.all()
+    category_res = [x.tolist() for x in np.array_split(cname_lst, 5)]
+
+    for i in range(len(category_res)):
+        context['ah_category_{}'.format(i)] = category_res[i]
+
+    context['ah_category'] = cname_lst
     context['sh'], context['page_of_obj'], context['range_page'] = \
         pages.get_page_range(request, sh_objs)
 
-    for obj in context['sh']:
-        view_stock_price(obj)
+    view_stocks_price_lst(context['sh'])
 
     return render(request, 'cn_a_stocks/index.html', context)
 
@@ -209,4 +242,16 @@ def get_balance(stock_obj):
         item.insert(0, ab_title[idx])
         ab_datas.append(item)
     return ab_datas
+
+
+def ajax_getstocks_by_category(request):
+    cid = request.GET.get('cid', None)
+    ah_objs = AStocksHeader.objects.filter(category_id=cid).all()
+    stocks_res = [(item.stock_name, item.stock_code, item.id) for item in ah_objs]
+    cname = AStocksCategory.objects.get(pk=cid).category_name
+
+    context = dict()
+    context['ah_data'] = stocks_res
+    context['ah_category'] = cname
+    return HttpResponse(json.dumps(context))
 

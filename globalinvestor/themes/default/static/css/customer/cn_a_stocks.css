@@ -62,12 +62,12 @@
 }
 
 #table-datas tbody>:first-child{
-    background-color: #E0EEEE;
+    background-color: #EFF3F4;//#E0EEEE;
     font-weight: bold;
     font-size: 0.5em;
 }
 #table-datas tr>:first-child{
-    background-color: #E0EEEE;
+    background-color: #EFF3F4;//#E0EEEE;
     font-weight: bold;
     font-size: 0.5em;
     width:125px;

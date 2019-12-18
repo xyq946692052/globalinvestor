@@ -28,33 +28,34 @@
                 {% endif %}
                 </div>
             {% endif %}
+            <div style="line-height:1.5em;font-size:14px;">
+                {% if sobj.website %}
+                    <br/>
+                    公司主页&nbsp; <a href="http://{{ sobj.website }}" target="_blank">{{sobj.website}}</a><br/>
+                {% endif %}
+                {% if sobj.main_business %}
+                    {{ sobj.main_business}} <br/>
+                {% endif %}
+                {% if sobj.business_scope %}
+                        经营范围: {{ sobj.business_scope}} <br/>
+                {% endif %}
 
-            {% if sobj.website %}
-                <br/><br/>
-                公司主页&nbsp; <a href="http://{{ sobj.website }}" target="_blank">{{sobj.website}}</a><br/>
-            {% endif %}
-            {% if sobj.main_business %}
-                {{ sobj.main_business}} <br/>
-            {% endif %}
-            {% if sobj.business_scope %}
-                    经营范围: {{ sobj.business_scope}} <br/>
-            {% endif %}
-
-            {% if sobj.introduction %}
-            <div class="accordion-group">
-                <div class="accordion-heading">
-                    公司介绍:
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                    {{ company_info}}... >>点击了解更多
-                    </a>
-                </div>
-                <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
-                    <div class="accordion-inner">
-                       {{ sobj.introduction}}
+                {% if sobj.introduction %}
+                <div class="accordion-group">
+                    <div class="accordion-heading">
+                        公司介绍:
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                        {{ company_info}}... >>点击了解更多
+                        </a>
+                    </div>
+                    <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
+                        <div class="accordion-inner">
+                           {{ sobj.introduction}}
+                        </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
-            {% endif %}
 
             <div class="kline-div">
                 <div class="kline-img">
