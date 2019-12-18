@@ -57,22 +57,22 @@
 .stock-now-price{
     width: 120px;
     height: 100px;
-    background-color: #f9f9f9;
+   // background-color: #f9f9f9;
     display: inline;
 }
 
 #table-datas tbody>:first-child{
-    background-color: #EFF3F4;//#E0EEEE;
+    //background-color: #F1F3F4;
     font-weight: bold;
     font-size: 0.5em;
 }
 #table-datas tr>:first-child{
-    background-color: #EFF3F4;//#E0EEEE;
+   // background-color: #F1F3F4;
     font-weight: bold;
     font-size: 0.5em;
-    width:125px;
+    width:115px;
 }
 
 #table-datas td:not(:nth-child(1)){
-    width:75px;
+    width:80px;
 }
