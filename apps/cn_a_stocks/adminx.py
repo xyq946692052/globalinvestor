@@ -48,7 +48,7 @@ class AStocksOperationAdmin:
 
 
 @xadmin.sites.register(AStocksGrowth)
-class AstocksGrowth:
+class AStocksGrowth:
     list_filter = ['stock']
     list_display = ['id', 'stock', 'pub_date', 'stat_date', 'yoy_equity', 'yoy_asset', 'yoy_ni',
                     'yoy_eps_basic', 'yoy_pni']
@@ -65,10 +65,12 @@ class AStocksBalanceAdmin:
 class AStocksCashFlowAdmin:
     list_filter = ['stock']
     list_display = ['id', 'stock', 'pub_date', 'stat_date', 'cat_to_asset', 'nca_to_asset',
-                    'tangible_asset_to_asset', 'ebit_to_interest', 'cfo_to_or', 'cfo_to_np','cfo_to_gr']
+                    'tangible_asset_to_asset', 'ebit_to_interest', 'cfo_to_or', 'cfo_to_np',
+                    'cfo_to_gr']
 
 
 @xadmin.sites.register(AStocksEarnRate)
 class AStocksEarnRateAdmin:
-    list_display = ['id', 'one_month', 'three_month', 'half_year', 'one_year', 'three_year', 'five_year', 'ten_year']
+    list_display = ['id', 'one_month', 'three_month', 'half_year', 'one_year', 'three_year', 'five_year',
+                    'ten_year']
 

@@ -6,7 +6,7 @@
                 {% if page_of_obj.has_previous %}
                     <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="toPage({{ page_of_obj.previous_page_number }})">上一页</a></li>
                 {% else %}
-                    <li class="page-item disable"><a class="page-link" href="#">上一页</a></li>
+                    <li class="page-item disable"><a class="page-link" href="">上一页</a></li>
                 {% endif %}
             </li>
 
@@ -35,7 +35,7 @@
                 {% if page_of_obj.has_next %}
                     <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="toPage({{ page_of_obj.next_page_number }})">下一页</a></li>
                 {% else %}
-                    <li class="page-item disable"><a class="page-link" href="#">下一页</a></li>
+                    <li class="page-item disable"><a class="page-link" href="">下一页</a></li>
                 {% endif %}
             </li>
 

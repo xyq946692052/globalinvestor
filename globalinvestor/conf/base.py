@@ -67,6 +67,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'globalinvestor.urls'
 
 THEME = 'default'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -125,7 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/tmp/static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'themes', THEME,'tmp', 'static/')  # python manager.py collectstatic 收集静态文件的目录
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'themes', THEME, 'static/')

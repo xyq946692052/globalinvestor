@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 import xadmin
-from django.contrib import admin
 from django.urls import path, include
 
 from globalinvestor import views
@@ -27,3 +26,7 @@ urlpatterns = [
     path('us_stocks/', include('us_stocks.urls')),
     path('cryptocurrency/', include('cryptocurrency.urls')),
 ]
+
+# 处理404，500错误， 需要在配置文件中设置DEBUG=False才能生效
+handler404 = views.page_not_found
+handler500 = views.page_error
