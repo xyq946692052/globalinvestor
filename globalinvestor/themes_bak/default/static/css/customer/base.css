@@ -1,0 +1,43 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+html, body {
+    width:100%;
+    height:100%;
+    font-family: "Microsoft YaHei";
+    background-color: #fff;
+}
+
+.content{
+    margin-top:60px;
+    padding:2%;
+}
+.my-navbar {
+    padding:20px 0;
+
+}
+.my-navbar a{
+    background:transparent !important;
+    color:#fff !important
+}
+.my-navbar a:hover {
+    color:#45bcf9 !important;
+    background:transparent;
+    outline:0
+}
+.my-navbar a {
+    transition: color 0.5s ease-in-out;
+}/*-webkit-transition ;-moz-transition*/
+.top-nav {
+    padding:0;
+    background:#00343F;
+}
+button.navbar-toggle {
+    background-color:#fbfbfb;
+}/*整个背景都是transparent透明的，会看不到，所以再次覆盖一下*/
+button.navbar-toggle > span.icon-bar {
+    background-color:#dedede
+}
+

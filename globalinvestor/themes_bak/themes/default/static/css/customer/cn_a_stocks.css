@@ -1,0 +1,78 @@
+.stock-name{
+    width: 60px;
+    height:20px;
+    display:inline;
+}
+.stock-realtime-price{
+    margin-left:1%;
+    width:70px;
+    height:80px;
+    border-radius: 4px;
+    font-size: 0.55em;
+}
+.green-price-color{
+    color: green;
+}
+.red-price-color{
+    color:red;
+}
+.white-price-color{
+    color:#ccc;
+}
+.detail-stock_code{
+    font-size: 1.6em;
+}
+
+.stock-base-info{
+    margin-top:2%;
+    font-size: 1em;
+}
+.kline-div{
+    margin-top: 2%;
+    height: 350px;
+}
+.kline-date-ul{
+    list-style:none;
+
+}
+.kline-date-ul li{
+    font-weight: bold;
+    float: left;
+    width: 80px;
+    height: 30px;
+    line-height:30px;
+    text-align: center;
+    border:solid 1px #ccc;
+
+}
+.kline-img{
+    margin-top:2%;
+
+}
+.stock-company-info{
+    width: 60%;
+    margin-top:2%;
+    font-size: 1em;
+}
+.stock-now-price{
+    width: 120px;
+    height: 100px;
+   // background-color: #f9f9f9;
+    display: inline;
+}
+
+#table-datas tbody>:first-child{
+    //background-color: #F1F3F4;
+    font-weight: bold;
+    font-size: 0.5em;
+}
+#table-datas tr>:first-child{
+   // background-color: #F1F3F4;
+    font-weight: bold;
+    font-size: 0.5em;
+    width:115px;
+}
+
+#table-datas td:not(:nth-child(1)){
+    width:80px;
+}

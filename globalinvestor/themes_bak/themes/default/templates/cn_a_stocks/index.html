@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'css/customer/cn_a_stocks.css' %}" />
+	<link rel="stylesheet" href="{% static 'css/customer/style.css' %} ">
+    <style>
+        #category-name{
+            width:200px;
+            height:30px;
+            color:#000;
+            background-color: red;
+        }
+    </style>
+{% endblock %}
+
+{% block script %}
+     <script src="{% static 'js/cn_a_stocks.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#home" data-toggle="tab">
+                 沪深股票列表
+            </a>
+        </li>
+        <li><a href="#category" data-toggle="tab">板块划分</a></li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="home">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>编号</th>
+                    <th>板块</th>
+                    <th>地域</th>
+                    <th>上市时间</th>
+                </tr>
+              </thead>
+              <tbody>
+               {% for h in sh %}
+                <tr>
+                    <td>
+                        <div class="stock-name"><a href="detail?sid={{h.id}}">{{ h.stock_name }}</a></div>
+                        {% if h.now_price != None %}
+                            {% if h.price_change < 0 %}
+                                <span class="stock-realtime-price green-price-color">{{h.now_price}}  ({{h.price_change}}%)</span></td>
+                            {% elif h.now_price == 0 %}
+                                <span class="stock-realtime-price white-price-color">{{h.now_price}}</span></td>
+                            {% else %}
+                                <span class="stock-realtime-price red-price-color">{{h.now_price}}  ({{h.price_change}}%)</span></td>
+                            {% endif %}
+                        {% endif %}
+                    <td>{{ h.stock_code }}</td>
+                    <td>{{ h.category.category_name }}</td>
+                    <td>{{ h.area }}</td>
+                    <td>{{ h.ipodate }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        {% include "pagination.html" %}
+        </div>
+	    <div class="tab-pane fade" id="category">
+            <div id="wrapper">
+                <div class="overlay"></div>
+
+                <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+                    <table>
+                        <tr>
+                            <td>
+                                <ul class="nav sidebar-nav">
+                                    <li class="sidebar-brand"></li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-fw fa-home"></i> 版块列表</a>
+                                    </li>
+                                     {% for c in ah_category %}
+                                        <li>
+                                            <a href="javascript:void(0);"  onclick="view_stocks('{{ c.id }}')">
+                                                <i class="fa fa-fw fa-home"></i>{{c.category_name}}
+                                            </a>
+                                        </li>
+                                     {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+
+                </nav>
+
+                <div id="page-content-wrapper">
+                    <div>
+                      <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas" >
+                        <span class="hamb-top"></span>
+                        <span class="hamb-middle"></span>
+                        <span class="hamb-bottom"></span>
+                      </button>
+                    </div>
+                    <div style="margin-left:5%;">
+                        <div style="margin-top:-2%;">
+                            <span id="category-name"></span>
+                        </div>
+                         <table class="table table-bordered">
+                            <tr>
+                              <th>股票</th>
+                              <th>编码</th>
+                            </tr>
+                          <tbody id="stocks-info">
+                          </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
