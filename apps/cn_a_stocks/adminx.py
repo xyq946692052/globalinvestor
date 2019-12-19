@@ -18,23 +18,27 @@ xadmin.site.register(views.BaseAdminView, BaseSetting)
 class AStocksCategoryAdmin:
     list_display = ['id', 'category_name']
     list_filter = ['category_name']
+    search_fields = ['category_name']
 
 
 @xadmin.sites.register(AStocksHeader)
 class AStocksHeaderAdmin:
     list_filter = ['stock_name', 'stock_code']
     list_display = ['id', 'stock_name', 'stock_code', 'area']
+    search_fields = ['stock_name', 'stock_code']
 
 
 @xadmin.sites.register(AStocksClsePrice)
 class AStocksClsePriceAdmin:
     list_filter = ['stock', 'exchange_date']
     list_display = ['id', 'stock', 'exchange_date', 'closing_price']
+    search_fields = ['stock']
 
 
 @xadmin.sites.register(AStocksProfit)
 class AStocksProfitAdmin:
     list_filter = ['stock']
+    search_fields = ['stock']
     list_display = ['id', 'stock', 'pub_date', 'stat_date', 'roe_avg',
                     'np_margin', 'gp_margin', 'net_profit', 'epsttm', 'mb_revenue',
                     'total_share', 'liqa_share']
@@ -43,6 +47,7 @@ class AStocksProfitAdmin:
 @xadmin.sites.register(AStocksOperation)
 class AStocksOperationAdmin:
     list_filter = ['stock']
+    search_fields = ['stock']
     list_display = ['id', 'stock', 'pub_date', 'stat_date', 'nr_turn_ratio', 'nr_turn_days',
                     'inv_turn_ratio', 'inv_turn_days', 'ca_turn_ratio', 'asset_turn_ratio']
 
@@ -50,6 +55,7 @@ class AStocksOperationAdmin:
 @xadmin.sites.register(AStocksGrowth)
 class AStocksGrowth:
     list_filter = ['stock']
+    search_fields = ['stock']
     list_display = ['id', 'stock', 'pub_date', 'stat_date', 'yoy_equity', 'yoy_asset', 'yoy_ni',
                     'yoy_eps_basic', 'yoy_pni']
 
@@ -57,12 +63,14 @@ class AStocksGrowth:
 @xadmin.sites.register(AStocksBalance)
 class AStocksBalanceAdmin:
     list_filter = ['stock']
+    search_fields = ['stock']
     list_display = ['id', 'stock', 'pub_date', 'stat_date', 'current_ratio', 'quick_ratio',
                     'cash_ratio', 'yoy_liability', 'liability_to_asset', 'asset_to_equity']
 
 
 @xadmin.sites.register(AStocksCashFlow)
 class AStocksCashFlowAdmin:
+    search_fields = ['stock']
     list_filter = ['stock']
     list_display = ['id', 'stock', 'pub_date', 'stat_date', 'cat_to_asset', 'nca_to_asset',
                     'tangible_asset_to_asset', 'ebit_to_interest', 'cfo_to_or', 'cfo_to_np',
