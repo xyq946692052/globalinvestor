@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # xadmin
     'xadmin',
     'crispy_forms',
+    'reversion',
 
 ]
 

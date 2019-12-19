@@ -20,7 +20,7 @@ from django.urls import path, include
 from globalinvestor import views
 
 urlpatterns = [
-    path(r'admin/', xadmin.site.urls, name='xadmin'),
+    path(r'xadmin/', xadmin.site.urls, name='xadmin'),
     path('', views.home, name='home'),
     path('cn_a_stocks/', include('cn_a_stocks.urls')),
     path('cn_hk_stocks/', include('cn_hk_stocks.urls')),
