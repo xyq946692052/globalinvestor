@@ -13,7 +13,7 @@ def page_not_found(request, exception):
 
 @csrf_exempt
 def page_error(request, exception):
-    response =  render_to_response('500.html')
+    response = render_to_response('500.html')
     response.status_code = 500
     return response
 

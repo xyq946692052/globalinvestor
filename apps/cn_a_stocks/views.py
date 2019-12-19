@@ -1,5 +1,6 @@
 import requests
 import json
+import logging
 import numpy as np
 from collections import namedtuple
 
@@ -9,6 +10,8 @@ from utils import pages
 from .models import (AStocksCategory, AStocksHeader, AStocksProfit,
                       AStocksBalance, AStocksGrowth)
 
+
+logger = logging.getLogger(__name__)
 
 def view_stock_price(objs):
     """获取当前个股股价以及涨幅百分比"""
@@ -205,9 +208,9 @@ def get_profit(stock_obj):
                 '每股收益', '主营营业收入(千万元)', '总股本(千万股)', '流通股本（千万股）']
     ap_objs = AStocksProfit.objects.filter(stock=stock_obj).all()
     for _o in ap_objs:
-        ap_lst.append([_o.stat_date, '',round(_o.roe_avg*100, 2), round(_o.np_margin*100,2), round(_o.gp_margin*100,2),
-                       round(_o.net_profit/10000000,2),round(_o.epsttm,2), round(_o.mb_revenue/10000000,2),
-                       round(_o.total_share/10000000,2), round(_o.liqa_share/10000000,2)])
+        ap_lst.append([_o.stat_date, '', round(_o.roe_avg*100, 2), round(_o.np_margin*100, 2), round(_o.gp_margin*100, 2),
+                       round(_o.net_profit/10000000, 2), round(_o.epsttm,2), round(_o.mb_revenue/10000000, 2),
+                       round(_o.total_share/10000000, 2), round(_o.liqa_share/10000000, 2)])
     for idx, item in enumerate(np.transpose(ap_lst).tolist()):
         item.insert(0, ap_title[idx])
         ap_datas.append(item)
@@ -236,7 +239,7 @@ def get_balance(stock_obj):
                 '资产负债率', '权益乘数']
     ab_objs = AStocksBalance.objects.filter(stock=stock_obj).all()
     for _o in ab_objs:
-        ab_lst.append(['',round(_o.current_ratio*100, 2), round(_o.quick_ratio*100, 2), round(_o.cash_ratio*100, 2),
+        ab_lst.append(['', round(_o.current_ratio*100, 2), round(_o.quick_ratio*100, 2), round(_o.cash_ratio*100, 2),
             round(_o.yoy_liability*100, 2), round(_o.liability_to_asset*100, 2), round(_o.asset_to_equity, 2)])
     for idx, item in enumerate(np.transpose(ab_lst).tolist()):
         item.insert(0, ab_title[idx])
@@ -245,13 +248,22 @@ def get_balance(stock_obj):
 
 
 def ajax_getstocks_by_category(request):
-    cid = request.GET.get('cid', None)
-    ah_objs = AStocksHeader.objects.filter(category_id=cid).all()
-    stocks_res = [(item.stock_name, item.stock_code, item.id) for item in ah_objs]
-    cname = AStocksCategory.objects.get(pk=cid).category_name
-
+    logging.info('哥测试一下....')
     context = dict()
-    context['ah_data'] = stocks_res
-    context['ah_category'] = cname
-    return HttpResponse(json.dumps(context))
+    try:
+        cid = request.GET.get('cid', None)
+        ah_objs = AStocksHeader.objects.filter(category_id=cid).all()
+        stocks_res = [(item.stock_name, item.stock_code, item.id) for item in ah_objs]
+        cname = AStocksCategory.objects.get(pk=cid).category_name
+
+        context['ah_data'] = stocks_res
+        context['ah_category'] = cname
+        context['status_code'] = 200
+        return HttpResponse(json.dumps(context))
+    except Exception as e:
+        logging.error(e)
+        context['ah_data'] = ''
+        context['ah_category'] = ''
+        context['status_code'] = 500
+        return HttpResponse(json.dumps(context))
 
