@@ -24,6 +24,13 @@ $(document).ready(function () {
 });
 
 
+function changebg(obj){
+    var sp = $(obj).parent();
+    $(".panel-body span").css({"background-color":"#fff","color":"#337AB7"});
+    $(obj).css({"color":"337AB7"});
+    sp.css({"background-color":"black","color":"white"});
+}
+
 function view_stocks(cid){
     params = {'cid': cid};
     $.getJSON("ajax_getstocks_by_category", params, function(res){

@@ -227,7 +227,5 @@ LOGGING = {
             'level': 'INFO'
         }
     }
-
-
 }
 
