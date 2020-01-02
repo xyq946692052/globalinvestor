@@ -95,6 +95,6 @@ def import_closing_price(start_date, end_date):
 
 
 if __name__ == '__main__':
-    import_closing_price('2019-12-17', '2019-12-30')
+    import_closing_price('2019-12-27', '2020-01-30')
     #test_closing_price('600897', '2018')
     #import_closing_price_with_file('stocks_a_closing_price.csv')

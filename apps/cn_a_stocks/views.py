@@ -248,14 +248,13 @@ def get_balance(stock_obj):
 
 
 def ajax_getstocks_by_category(request):
-    logging.info('哥测试一下....')
     context = dict()
     try:
         cid = request.GET.get('cid', None)
         ah_objs = AStocksHeader.objects.filter(category_id=cid).all()
-        stocks_res = [(item.stock_name, item.stock_code, item.id) for item in ah_objs]
+        view_stocks_price_lst(ah_objs)
+        stocks_res = [(item.stock_name, item.stock_code, item.id, item.now_price, item.price_change) for item in ah_objs]
         cname = AStocksCategory.objects.get(pk=cid).category_name
-
         context['ah_data'] = stocks_res
         context['ah_category'] = cname
         context['status_code'] = 200
