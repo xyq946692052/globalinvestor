@@ -26,23 +26,24 @@ $(document).ready(function () {
 
 function changebg(obj){
     var sp = $(obj).parent();
-    $(".panel-body span").css({"background-color":"#fff","color":"#337AB7"});
-    $(obj).css({"color":"337AB7"});
-    sp.css({"background-color":"black","color":"white"});
+    $(".panel-body span").css({"background-color":"#fff","color":"#fff"});
+    sp.css({"background-color":"black"});
 }
+
 
 function view_stocks(cid){
     params = {'cid': cid};
     $.getJSON("ajax_getstocks_by_category", params, function(res){
         $("#category-name").html("<h3>"+res.ah_category+"</h3>");
-
-        tr_str = "<thead><th>编号</th><th>股票</th><th>当前价</th><th>涨幅</th></thead>";
+        tr_str = "<thead><th>编号</th><th>股票</th><th>当前价</th><th>涨幅</th><th>市盈率</th><th>总市值</th></thead>";
         for(var i=0;i<res.ah_data.length;i++){
             tr_str += "<tr>"
                     + "<td>"+res.ah_data[i][1] +"</td>"
                     + "<td><a href='detail?sid="+res.ah_data[i][2]+"'>"+res.ah_data[i][0]+ "</a></td>"
                     + "<td class='now-price'>"+res.ah_data[i][3] +"</td>"
                     + "<td class='change-price'>"+res.ah_data[i][4] +"%</td>"
+                    + "<td>"+res.ah_data[i][5] +"</td>"
+                    + "<td>"+res.ah_data[i][6] +" 亿</td>"
                     + "</tr>";
         }
         $("#stocks-info").html(tr_str);

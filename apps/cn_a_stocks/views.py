@@ -13,6 +13,7 @@ from .models import (AStocksCategory, AStocksHeader, AStocksProfit,
 
 logger = logging.getLogger(__name__)
 
+
 def view_stock_price(objs):
     """获取当前个股股价以及涨幅百分比"""
     if objs.stock_code.startswith('6'):
@@ -252,8 +253,18 @@ def ajax_getstocks_by_category(request):
     try:
         cid = request.GET.get('cid', None)
         ah_objs = AStocksHeader.objects.filter(category_id=cid).all()
+        for _o in ah_objs:
+            if _o.stock_code.startswith('6'):
+                sk_dct = get_stock_detail_info('sh', _o.stock_code)
+            else:
+                sk_dct = get_stock_detail_info('sz', _o.stock_code)
+
+            setattr(_o, 'pe_dynamic', sk_dct.pe_dynamic)
+            setattr(_o, 'aggregate_market_value', sk_dct.aggregate_market_value)
+
         view_stocks_price_lst(ah_objs)
-        stocks_res = [(item.stock_name, item.stock_code, item.id, item.now_price, item.price_change) for item in ah_objs]
+        stocks_res = [(item.stock_name, item.stock_code, item.id, item.now_price,
+                       item.price_change, item.pe_dynamic, item.aggregate_market_value) for item in ah_objs]
         cname = AStocksCategory.objects.get(pk=cid).category_name
         context['ah_data'] = stocks_res
         context['ah_category'] = cname
