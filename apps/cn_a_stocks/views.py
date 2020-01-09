@@ -6,6 +6,7 @@ from collections import namedtuple
 
 from django.shortcuts import render, HttpResponse
 
+from .task import sendmail
 from utils import pages
 from .models import (AStocksCategory, AStocksHeader, AStocksProfit,
                       AStocksBalance, AStocksGrowth)
@@ -61,6 +62,8 @@ def view_stocks_price_lst(objs_lst):
 
 
 def index(request):
+    sendmail.delay('kevin.xie@r-pac.com.cn')
+
     """A股首页"""
     name_code = request.GET.get('name_code', None)
     if name_code:
@@ -265,6 +268,8 @@ def ajax_getstocks_by_category(request):
         view_stocks_price_lst(ah_objs)
         stocks_res = [(item.stock_name, item.stock_code, item.id, item.now_price,
                        item.price_change, item.pe_dynamic, item.aggregate_market_value) for item in ah_objs]
+        sorted(stocks_res, key=lambda item: item[4])  # 按照当前涨幅排序
+        print('----------', stocks_res)
         cname = AStocksCategory.objects.get(pk=cid).category_name
         context['ah_data'] = stocks_res
         context['ah_category'] = cname

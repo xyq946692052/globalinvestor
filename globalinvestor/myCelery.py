@@ -1,5 +1,3 @@
-
-from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
 from django.conf import settings
@@ -9,7 +7,6 @@ from django.conf import settings
 project_name = os.path.split(os.path.abspath('.'))[-1]
 project_settings = '{}.conf.test'.format(project_name)
 
-print('#########',project_name,project_settings)
 
 # 设置环境变量
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', project_settings)

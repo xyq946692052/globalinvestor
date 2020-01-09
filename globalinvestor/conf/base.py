@@ -153,7 +153,7 @@ LOGGING = {
     'formatters': {
         # 详细的日志格式
         'standard': {
-            'format': '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s]'
+            'format': '[%(asctime)s]'
                       '[%(filename)s:%(lineno)d][%(levelname)s][%(message)s]'
         },
         # 简单的日志格式
@@ -217,7 +217,7 @@ LOGGING = {
     'loggers':{
         # 默认的logger应用配置
         '': {
-            'handlers': ['default','console', 'error'],  # 上线后可以把console移除
+            'handlers': ['default', 'error'],  # 上线后可以把console移除
             'level': 'DEBUG',
             'propagate': True,  # 向不向最高级别的logger传递
         },
@@ -228,4 +228,23 @@ LOGGING = {
         }
     }
 }
+
+
+# redis config
+
+# celery中间人
+BROKER_URL = 'redis://localhost:6379/0'
+
+# celery结果返回，可用于跟踪结果
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# celery内容的消息的格式设置
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+# celery时区设置， 使用settings中的TIME_ZONE同样的时区
+CELERY_TIMEZONE = TIME_ZONE
+
 

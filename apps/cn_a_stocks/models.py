@@ -1,8 +1,7 @@
 from django.db import models
 
-from datetime import datetime as dt
-
 from django.utils import timezone
+from django.utils.timezone import now
 
 
 class AStocksCategory(models.Model):
@@ -24,8 +23,8 @@ class AStocksHeader(models.Model):
     category = models.ForeignKey(AStocksCategory, models.CASCADE, null=True, verbose_name='所属板块')  # 所属板块
     stock_code = models.CharField(max_length=10, verbose_name='股票代码')  # 股票代码
     area = models.CharField(max_length=10, null=True, verbose_name='公司所在地')  # 公司所在地
-    ipodate = models.DateField(default=dt.now(), null=True, blank=True, verbose_name='上市时间')  # 上市时间
-    outdate = models.DateField(default=dt.now(), null=True, blank=True, verbose_name='退市日期')  # 退市时间
+    #ipodate = models.DateField(default=now(), null=True, blank=True, verbose_name='上市时间')  # 上市时间
+    #outdate = models.DateField(default=now(), null=True, blank=True, verbose_name='退市日期')  # 退市时间
     isdelisted = models.BooleanField(default=False, verbose_name='是否退市')   # 是否退市
     reg_capital = models.FloatField(default=0.0, verbose_name='注册资本')  # 注册资本
     introduction = models.TextField(null=True, verbose_name='公司介绍')  # 公司介绍
