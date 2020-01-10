@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block style %}
+<style>
+    .dj-block{
+    margin-top: 0.5%;
+    margin-left: 1.5%;
+    padding: 1%;
+    float: left;
+    width: 220px;
+    height: 160px;
+    border: 1px solid #117a8b;
+    border-radius: 4%;
+}
+
+.dj-block-top{
+    height:50%
+}
+
+.dj-block-top-left{
+    float: left;
+    width: 50px;
+}
+.dj-block-top-right{
+    float: left;
+    padding: 4%;
+    width: 65%;
+}
+.dj-block-bottom{
+    padding: 3%;
+    width: 100%;
+    height: 50%;
+    font-size:80%;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+     <a href="/process_schedule">
+        <div class="dj-block">
+            <div class="dj-block-top">
+                <div class="dj-block-top-left"><img src="{% static 'img/task.jpg' %}" width="50px"/> </div>
+                <div class="dj-block-top-right"><p>任务进度</p></div>
+            </div>
+            <div class="dj-block-bottom"> 查看项目进度、更新信息等</div>
+        </div>
+    </a>
+
+     <a href="/xadmin/">
+        <div class="dj-block">
+            <div class="dj-block-top">
+                <div class="dj-block-top-left"><img src="{% static 'img/admin.jpg' %}" width="50px"/> </div>
+                <div class="dj-block-top-right"><p>数据管理中心</p></div>
+            </div>
+            <div class="dj-block-bottom">后台数据管理界面，提供查看、更新、删除数据</div>
+        </div>
+    </a>
+
+    <a href="/xadmin/">
+        <div class="dj-block">
+            <div class="dj-block-top">
+                <div class="dj-block-top-left"><img src="{% static 'img/celery.jpg' %}" width="50px"/> </div>
+                <div class="dj-block-top-right"><p>定时任务管理</p></div>
+            </div>
+            <div class="dj-block-bottom">监控管理定时任务，定时更新相关数据</div>
+        </div>
+    </a>
+
+{% endblock %}

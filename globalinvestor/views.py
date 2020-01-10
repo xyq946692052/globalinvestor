@@ -33,6 +33,12 @@ def home(request):
     return render(request, 'home.html', context)
 
 
+
+def system_manager(request):
+    context = {}
+    return render(request, 'system_manager.html', context)
+
+
 def process_schedule(request):
     context = {}
 
