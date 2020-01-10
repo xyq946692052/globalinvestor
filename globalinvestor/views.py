@@ -33,3 +33,9 @@ def home(request):
     return render(request, 'home.html', context)
 
 
+def process_schedule(request):
+    context = {}
+
+    return render(request, 'process_schedule.html', context)
+
+

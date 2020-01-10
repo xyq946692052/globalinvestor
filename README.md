@@ -42,6 +42,7 @@ source /usr/local/python3/bin/virtualenvwrapper.sh #执行virtualenvwrapper安�
 ## 安装xadmin2.0
 1、下载zip包，https://github.com/sshwsfc/xadmin/tree/django2
 2、安装 pip install xadmin-django2
+3、或者pip install git+git://github.com/sshwsfc/xadmin.git@django2
 
 ## 项目运行步骤：
 
