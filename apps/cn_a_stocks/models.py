@@ -51,6 +51,9 @@ class AStocksClsePrice(models.Model):
         db_table = 'stocks_a_closing_price'
         verbose_name = verbose_name_plural = '股票收盘价历史记录'
 
+    def __str__(self):
+        return self.stock.stock_name
+
 
 class AStocksProfit(models.Model):
     """盈利能力"""

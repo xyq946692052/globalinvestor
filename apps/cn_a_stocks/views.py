@@ -269,7 +269,6 @@ def ajax_getstocks_by_category(request):
         stocks_res = [(item.stock_name, item.stock_code, item.id, item.now_price,
                        item.price_change, item.pe_dynamic, item.aggregate_market_value) for item in ah_objs]
         sorted(stocks_res, key=lambda item: item[4])  # 按照当前涨幅排序
-        print('----------', stocks_res)
         cname = AStocksCategory.objects.get(pk=cid).category_name
         context['ah_data'] = stocks_res
         context['ah_category'] = cname
